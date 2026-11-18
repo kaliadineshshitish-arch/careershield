@@ -120,6 +120,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <a href="#ats">ATS Check</a>
     <a href="#match">Job Match</a>
     <a href="#reality">Reality</a>
+    <a href="#cover">Cover Letter</a>
     <a href="#repair">Repair</a>
   </div>
 </div></nav>
@@ -141,6 +142,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="card"><div class="ico">📄</div><h3>ATS Reality Check</h3><p>Paste your resume and the job description. See which keywords the software will find, which it will miss, and where your formatting breaks parsing.</p></div>
     <div class="card"><div class="ico">🎯</div><h3>Job Match Score</h3><p>How close is your resume to this specific job? Section by section — skills, experience, education — with the exact gaps listed.</p></div>
     <div class="card"><div class="ico">🔍</div><h3>Resume Reality Check</h3><p>Upload your PDF. See exactly what a screening system can and cannot read — your name, contact, headings, dates, and whether tables break it.</p></div>
+    <div class="card"><div class="ico">✉️</div><h3>Cover Letter</h3><p>A letter written for this specific job and this specific company. Never a template with the names swapped.</p></div>
     <div class="card"><div class="ico">🔧</div><h3>Resume Repair</h3><p>Turn plain responsibilities into achievement lines that are true. No invented numbers, no fake experience.</p></div>
   </div>
 </section>
@@ -222,6 +224,32 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   <span style="font-size:.78rem;color:#8fa2c4">Save this report</span>
   <button class="btn btn-primary btn-sm" onclick="savePdf()">Download PDF</button>
 </div>
+
+
+<!-- ============ COVER LETTER ============ -->
+<section class="wrap" id="cover">
+  <div class="tool">
+    <h2>✉️ Cover Letter</h2>
+    <p class="lead">One letter, written for this specific job. No template filler.</p>
+    <label>Job title</label>
+    <input type="text" id="clRole" placeholder="Example: Junior Data Analyst">
+    <label>Company name</label>
+    <input type="text" id="clCompany" placeholder="Example: Zoho">
+    <label>Your key skills or experience (2-3 lines)</label>
+    <textarea id="clExp" placeholder="Example: B.Com graduate, 1 year internship at a CA firm, advanced Excel, Tally, basic SQL."></textarea>
+    <label>Job description (optional but recommended)</label>
+    <textarea id="clJd" placeholder="Paste the job posting here…"></textarea>
+    <label>Language</label>
+    <select id="clLang">
+      <option value="english">English</option>
+      <option value="hinglish">Hinglish</option>
+      <option value="hindi">Hindi</option>
+    </select>
+    <div style="margin-top:18px"><button class="btn btn-primary" onclick="runCover()">Write my cover letter</button></div>
+    <div class="out" id="coverOut"></div>
+    <p class="note">We never invent employers, degrees or numbers. If your input is thin, the letter will be honest rather than padded.</p>
+  </div>
+</section>
 
 <footer><div class="wrap">
   <div>CareerShield — a DK Digital Studio product</div>
@@ -356,22 +384,85 @@ function runAts(){ renderAnalysis('atsOut', analyse(document.getElementById('ats
 function runMatch(){ renderAnalysis('matchOut', analyse(document.getElementById('matchResume').value, document.getElementById('matchJD').value)); }
 
 /* ---------- REPAIR (client-side rewrite scaffold; AI call wired later) ---------- */
-function runRepair(){
+async function runRepair(){
   const line = document.getElementById('repairIn').value.trim();
   const role = document.getElementById('repairRole').value.trim();
   const out = document.getElementById('repairOut');
   if (!line){ out.innerHTML = '<p style="color:#ef4444">Paste a bullet point first.</p>'; out.classList.add('show'); return; }
-  out.innerHTML = `<p style="color:var(--muted)">AI rewrite is being connected. For now here is the rule we will apply:</p>
-  <ul class="flags" style="margin-top:10px">
-    <li class="ok">Start with a strong verb: led, built, delivered, reduced, improved, launched.</li>
-    <li class="ok">Say what changed, not what you were "responsible for".</li>
-    <li class="ok">Add a number only if you can defend it in an interview.</li>
-    <li class="ok">Never invent a company, a title, a date or a metric.</li>
-  </ul>
-  <p class="note">Your line: <em>${line.replace(/</g,'&lt;')}</em>${role?' — role: '+role.replace(/</g,'&lt;'):''}</p>`;
+
+  const txt = await aiText({
+    mode: 'repair', site: 'careershield', lang: 'english',
+    bullet: line, role: role
+  }, 'repairOut', 'Rewriting your bullet point…');
+
+  if (txt === null){
+    out.innerHTML = `<p style="color:var(--muted)">AI is not connected yet. The rules we will apply:</p>
+    <ul class="flags" style="margin-top:10px">
+      <li class="ok">Start with a strong verb: led, built, delivered, reduced, improved, launched.</li>
+      <li class="ok">Say what changed, not what you were "responsible for".</li>
+      <li class="ok">Add a number only if you can defend it in an interview.</li>
+      <li class="ok">Never invent a company, a title, a date or a metric.</li>
+    </ul>`;
+    out.classList.add('show');
+    return;
+  }
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + txt.replace(/</g,'&lt;') + '</div>';
   out.classList.add('show');
+  showPdfBar('repair');
 }
 
+async function runCover(){
+  const role = document.getElementById('clRole').value.trim();
+  const company = document.getElementById('clCompany').value.trim();
+  const exp = document.getElementById('clExp').value.trim();
+  const jd = document.getElementById('clJd').value.trim();
+  const lang = document.getElementById('clLang').value;
+  const out = document.getElementById('coverOut');
+  if (!role || !exp){ out.innerHTML = '<p style="color:#ef4444">Job title and your skills are needed.</p>'; out.classList.add('show'); return; }
+
+  const txt = await aiText({
+    mode: 'cover-letter', site: 'careershield', lang: lang,
+    role: role, company: company, experience: exp, jd: jd
+  }, 'coverOut', 'Writing your cover letter…');
+
+  if (txt === null) return;
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + txt.replace(/</g,'&lt;') + '</div>';
+  out.classList.add('show');
+  showPdfBar('cover');
+}
+
+/* ---------- SHARED AI CLIENT (CreatorMarket's ai-tools function) ---------- */
+const AI_BASE = 'https://eqwmsjsqrhgyfpyssfop.supabase.co/functions/v1';
+const AI_KEY  = 'sb_publishable_wYc_3ArDw5ghAcgYYxX_DA_LsrI4CsE';
+
+async function callAI(payload){
+  const res = await fetch(AI_BASE + '/ai-tools', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY },
+    body: JSON.stringify(payload)
+  });
+  let data = {};
+  try { data = await res.json(); } catch(e){}
+  return { ok: res.ok, status: res.status, data };
+}
+
+async function aiText(payload, outEl, busyLabel){
+  const out = document.getElementById(outEl);
+  out.innerHTML = '<p style="color:var(--muted)">' + busyLabel + '</p>';
+  out.classList.add('show');
+  try {
+    const r = await callAI(payload);
+    if (!r.ok){
+      out.innerHTML = '<p style="color:#f59e0b">This AI tool is not switched on yet on the server. '
+        + (r.data && r.data.message ? r.data.message : 'Server returned ' + r.status + '.') + '</p>';
+      return null;
+    }
+    return r.data.content || '';
+  } catch(e){
+    out.innerHTML = '<p style="color:#ef4444">Could not reach the AI service. Check your connection and try again.</p>';
+    return null;
+  }
+}
 
 /* ---------- REALITY CHECK (pdf.js) ---------- */
 let pdfText = '';
