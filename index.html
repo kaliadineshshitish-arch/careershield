@@ -27,12 +27,13 @@ nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.88);backdrop-filt
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;letter-spacing:-.02em}
 .brand .dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--green),#0ea5e9);display:grid;place-items:center;font-size:15px}
-.navlinks{display:flex;gap:20px;font-size:.86rem;color:var(--muted)}
-.navlinks a{text-decoration:none}
+.navlinks{display:flex;gap:18px;font-size:.82rem;color:var(--muted);white-space:nowrap}
+.navlinks a{text-decoration:none;padding:4px 0}
 .navlinks a:hover{color:var(--ink)}
-@media(max-width:700px){.navlinks{display:none}}
+@media(max-width:820px){.navlinks{display:none}}
 /* hero */
-header{padding:64px 0 40px;text-align:center}
+header{padding:48px 0 32px;text-align:center}
+@media(max-width:600px){header{padding:36px 0 26px}section{padding:22px 0}.tool{padding:18px}}
 .eyebrow{display:inline-block;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green);border:1px solid #1c3b2c;background:#0f2419;padding:6px 14px;border-radius:999px;margin-bottom:22px;font-weight:700}
 h1{font-size:clamp(1.9rem,5vw,3.1rem);line-height:1.12;letter-spacing:-.03em;margin-bottom:18px;font-weight:800}
 h1 .grad{background:linear-gradient(100deg,var(--green),#38bdf8);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -45,14 +46,16 @@ h1 .grad{background:linear-gradient(100deg,var(--green),#38bdf8);-webkit-backgro
 .btn-sm{padding:9px 16px;font-size:.8rem;border-radius:10px}
 /* cards */
 section{padding:34px 0}
-.grid{display:grid;gap:16px}
-.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid{display:grid;gap:14px;align-items:stretch}
+.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:760px){.grid-2{grid-template-columns:1fr}}
 .grid-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
-.card h3{font-size:1.02rem;margin-bottom:8px;letter-spacing:-.01em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;height:100%}
+.card h3{font-size:.98rem;margin-bottom:8px;letter-spacing:-.01em;line-height:1.3}
+.card p{flex:1}
 .card p{color:var(--muted);font-size:.86rem}
 .card .ico{width:38px;height:38px;border-radius:11px;background:#0f2419;border:1px solid #1c3b2c;display:grid;place-items:center;font-size:17px;margin-bottom:14px}
-.badge{display:inline-block;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-weight:800;padding:3px 9px;border-radius:999px;margin-left:8px;vertical-align:middle}
+.badge{display:inline-block;font-size:.6rem;letter-spacing:.09em;text-transform:uppercase;font-weight:800;padding:3px 8px;border-radius:999px;margin:6px 0 0;vertical-align:middle;white-space:nowrap}
 .badge-hero{background:var(--green);color:#04210f}
 /* tool shell */
 .tool{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;margin-top:16px}
@@ -115,7 +118,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <section class="wrap">
   <div class="grid grid-2">
-    <div class="card"><div class="ico">🚨</div><h3>Job Offer Red Flag Check<span class="badge badge-hero">Flagship</span></h3><p>Seven questions that catch the pattern behind almost every fake placement racket in India. No percentage, no false certainty — just the flags that actually matter.</p></div>
+    <div class="card"><div class="ico">🚨</div><h3>Job Offer Red Flag Check</h3><span class="badge badge-hero">Flagship</span><p>Seven questions that catch the pattern behind almost every fake placement racket in India. No percentage, no false certainty — just the flags that actually matter.</p></div>
     <div class="card"><div class="ico">📄</div><h3>ATS Reality Check</h3><p>Paste your resume and the job description. See which keywords the software will find, which it will miss, and where your formatting breaks parsing.</p></div>
     <div class="card"><div class="ico">🎯</div><h3>Job Match Score</h3><p>How close is your resume to this specific job? Section by section — skills, experience, education — with the exact gaps listed.</p></div>
     <div class="card"><div class="ico">🔧</div><h3>Resume Repair</h3><p>Turn plain responsibilities into achievement lines that are true. No invented numbers, no fake experience.</p></div>
