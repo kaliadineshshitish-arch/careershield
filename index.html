@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CareerShield — Check if a job offer is real, and fix your resume</title>
+<meta name="description" content="Free tools for Indian job seekers: check a job offer for scam red flags, test how ATS reads your resume, match your resume to a job description, and fix what is broken. No signup, no data stored.">
+<meta name="theme-color" content="#0b1220">
+<meta property="og:title" content="CareerShield — check the job, fix the resume">
+<meta property="og:description" content="India's job scam check + resume health report. Free, no signup, data stays on your device.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+<style>
+:root{
+  --bg:#0b1220; --bg2:#111a2c; --card:#151f33; --line:#243352;
+  --ink:#e8eefc; --muted:#8fa2c4; --faint:#5f7398;
+  --green:#22c55e; --green2:#16a34a; --red:#ef4444; --amber:#f59e0b;
+  --blue:#3b82f6; --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+a{color:inherit}
+/* nav */
+nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.88);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;letter-spacing:-.02em}
+.brand .dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--green),#0ea5e9);display:grid;place-items:center;font-size:15px}
+.navlinks{display:flex;gap:20px;font-size:.86rem;color:var(--muted)}
+.navlinks a{text-decoration:none}
+.navlinks a:hover{color:var(--ink)}
+@media(max-width:700px){.navlinks{display:none}}
+/* hero */
+header{padding:64px 0 40px;text-align:center}
+.eyebrow{display:inline-block;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green);border:1px solid #1c3b2c;background:#0f2419;padding:6px 14px;border-radius:999px;margin-bottom:22px;font-weight:700}
+h1{font-size:clamp(1.9rem,5vw,3.1rem);line-height:1.12;letter-spacing:-.03em;margin-bottom:18px;font-weight:800}
+h1 .grad{background:linear-gradient(100deg,var(--green),#38bdf8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{max-width:640px;margin:0 auto 28px;color:var(--muted);font-size:1.02rem}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:13px;font-weight:700;font-size:.92rem;border:none;cursor:pointer;text-decoration:none;transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:linear-gradient(120deg,var(--green2),#0891b2);color:#fff;box-shadow:0 8px 24px rgba(34,197,94,.25)}
+.btn-ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn-sm{padding:9px 16px;font-size:.8rem;border-radius:10px}
+/* cards */
+section{padding:34px 0}
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid-3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.card h3{font-size:1.02rem;margin-bottom:8px;letter-spacing:-.01em}
+.card p{color:var(--muted);font-size:.86rem}
+.card .ico{width:38px;height:38px;border-radius:11px;background:#0f2419;border:1px solid #1c3b2c;display:grid;place-items:center;font-size:17px;margin-bottom:14px}
+.badge{display:inline-block;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;font-weight:800;padding:3px 9px;border-radius:999px;margin-left:8px;vertical-align:middle}
+.badge-hero{background:var(--green);color:#04210f}
+/* tool shell */
+.tool{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;margin-top:16px}
+.tool h2{font-size:1.35rem;letter-spacing:-.02em;margin-bottom:6px}
+.tool .lead{color:var(--muted);font-size:.88rem;margin-bottom:20px}
+label{display:block;font-size:.78rem;font-weight:700;color:var(--muted);margin:14px 0 6px;letter-spacing:.01em}
+input[type=text],textarea,select{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:11px 13px;color:var(--ink);font-size:.9rem;font-family:inherit;outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--green)}
+textarea{min-height:110px;resize:vertical}
+.q{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid #1b2740}
+.q:last-child{border-bottom:none}
+.q .txt{flex:1;font-size:.9rem}
+.q .txt small{display:block;color:var(--faint);font-size:.76rem;margin-top:2px}
+.switch{display:flex;gap:6px;flex:none}
+.switch button{background:var(--bg2);border:1px solid var(--line);color:var(--muted);border-radius:9px;padding:7px 13px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit}
+.switch button.on{background:var(--green2);border-color:var(--green2);color:#fff}
+.switch button.on-no{background:var(--red);border-color:var(--red);color:#fff}
+.out{margin-top:18px;padding:18px;border-radius:13px;background:var(--bg2);border:1px solid var(--line);font-size:.88rem;white-space:pre-wrap;display:none}
+.out.show{display:block}
+.risk{display:flex;align-items:center;gap:14px;padding:16px;border-radius:13px;margin-bottom:14px}
+.risk-high{background:#2a1114;border:1px solid #4d1d22}
+.risk-mid{background:#2a2011;border:1px solid #4d3a1d}
+.risk-low{background:#0f2419;border:1px solid #1c3b2c}
+.risk .score{font-size:1.9rem;font-weight:800;line-height:1}
+.risk .lbl{font-size:.82rem;color:var(--muted)}
+ul.flags{list-style:none;margin-top:12px}
+ul.flags li{padding:9px 0 9px 26px;position:relative;font-size:.86rem;border-bottom:1px solid #1b2740}
+ul.flags li:last-child{border-bottom:none}
+ul.flags li:before{position:absolute;left:0;top:9px}
+ul.flags li.bad:before{content:"✕";color:var(--red);font-weight:800}
+ul.flags li.ok:before{content:"✓";color:var(--green);font-weight:800}
+.note{font-size:.74rem;color:var(--faint);margin-top:14px;line-height:1.5}
+footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px;color:var(--faint);font-size:.8rem}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap">
+  <div class="brand"><span class="dot">🛡️</span> CareerShield</div>
+  <div class="navlinks">
+    <a href="#scam">Scam Check</a>
+    <a href="#ats">ATS Check</a>
+    <a href="#match">Job Match</a>
+    <a href="#repair">Repair</a>
+  </div>
+</div></nav>
+
+<header class="wrap">
+  <div class="eyebrow">Free for job seekers — no signup, no card</div>
+  <h1>Check the job. Fix the resume.<br><span class="grad">Don't get cheated.</span></h1>
+  <p class="sub">Indian job seekers lost crores to fake offers last year. CareerShield checks a job offer for scam red flags and tells you exactly what is wrong with your resume — before you hit apply.</p>
+  <div class="cta">
+    <a class="btn btn-primary" href="#scam">Check a job offer →</a>
+    <a class="btn btn-ghost" href="#ats">Check my resume</a>
+  </div>
+  <p class="note" style="margin-top:22px">Everything runs in your browser. Your resume never leaves your device.</p>
+</header>
+
+<section class="wrap">
+  <div class="grid grid-2">
+    <div class="card"><div class="ico">🚨</div><h3>Job Offer Red Flag Check<span class="badge badge-hero">Flagship</span></h3><p>Seven questions that catch the pattern behind almost every fake placement racket in India. No percentage, no false certainty — just the flags that actually matter.</p></div>
+    <div class="card"><div class="ico">📄</div><h3>ATS Reality Check</h3><p>Paste your resume and the job description. See which keywords the software will find, which it will miss, and where your formatting breaks parsing.</p></div>
+    <div class="card"><div class="ico">🎯</div><h3>Job Match Score</h3><p>How close is your resume to this specific job? Section by section — skills, experience, education — with the exact gaps listed.</p></div>
+    <div class="card"><div class="ico">🔧</div><h3>Resume Repair</h3><p>Turn plain responsibilities into achievement lines that are true. No invented numbers, no fake experience.</p></div>
+  </div>
+</section>
+
+<!-- ============ SCAM CHECK ============ -->
+<section class="wrap" id="scam">
+  <div class="tool">
+    <h2>🚨 Job Offer Red Flag Check</h2>
+    <p class="lead">Answer honestly. This is a warning-sign checker, not a verdict.</p>
+    <div id="scamQs"></div>
+    <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="checkScam()">Check this offer</button>
+      <button class="btn btn-ghost btn-sm" onclick="resetScam()">Reset</button>
+    </div>
+    <div class="out" id="scamOut"></div>
+    <p class="note">CareerShield does not accuse any company. These are the patterns Indian cyber crime cells report most often. If a real employer is asking you for money, walk away and report it on cybercrime.gov.in.</p>
+  </div>
+</section>
+
+<!-- ============ ATS ============ -->
+<section class="wrap" id="ats">
+  <div class="tool">
+    <h2>📄 ATS Reality Check</h2>
+    <p class="lead">Paste your resume and the job description. We compare the words — the way screening software does.</p>
+    <label>Your resume text</label>
+    <textarea id="atsResume" placeholder="Paste your full resume here…"></textarea>
+    <label>Job description</label>
+    <textarea id="atsJD" placeholder="Paste the job posting here…"></textarea>
+    <div style="margin-top:18px"><button class="btn btn-primary" onclick="runAts()">Check my resume</button></div>
+    <div class="out" id="atsOut"></div>
+    <p class="note">This is a keyword and readability assessment, not an employer's actual ATS score. No tool can give you that number — every company configures its own system.</p>
+  </div>
+</section>
+
+<!-- ============ MATCH ============ -->
+<section class="wrap" id="match">
+  <div class="tool">
+    <h2>🎯 Job Match Score</h2>
+    <p class="lead">Same engine, section by section. See exactly where you are strong and where you are missing.</p>
+    <label>Your resume text</label>
+    <textarea id="matchResume" placeholder="Paste your resume…"></textarea>
+    <label>Job description</label>
+    <textarea id="matchJD" placeholder="Paste the job posting…"></textarea>
+    <div style="margin-top:18px"><button class="btn btn-primary" onclick="runMatch()">Match me</button></div>
+    <div class="out" id="matchOut"></div>
+  </div>
+</section>
+
+<!-- ============ REPAIR ============ -->
+<section class="wrap" id="repair">
+  <div class="tool">
+    <h2>🔧 Resume Repair</h2>
+    <p class="lead">Paste one weak bullet point. Get a stronger version that stays true to what you actually did.</p>
+    <label>Your bullet point</label>
+    <textarea id="repairIn" placeholder="Example: Responsible for handling customer queries and managing the team's reports."></textarea>
+    <label>Your role (optional)</label>
+    <input type="text" id="repairRole" placeholder="Example: Customer support executive, 1 year">
+    <div style="margin-top:18px"><button class="btn btn-primary" onclick="runRepair()">Improve this line</button></div>
+    <div class="out" id="repairOut"></div>
+    <p class="note">We never invent numbers, companies or achievements. If we cannot make a line stronger without lying, we say so.</p>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  <div>CareerShield — a DK Digital Studio product</div>
+  <div>Free · No signup · Data stays on your device</div>
+</div></footer>
+
+<script>
+/* ---------- SCAM CHECKER ---------- */
+const SCAM_Q = [
+  { id:'fee',  q:'Did they ask you to pay any money?', hint:'Registration, training, laptop, document verification, "security deposit" — any amount.', weight: 30 },
+  { id:'email', q:'Is the offer coming from a personal email?', hint:'Gmail, Yahoo, Rediffmail instead of a company domain.', weight: 12 },
+  { id:'whatsapp', q:'Is the whole process on WhatsApp only?', hint:'No official email, no company portal, no video interview.', weight: 12 },
+  { id:'guarantee', q:'Did they "guarantee" a job or salary?', hint:'Real employers never guarantee placement.', weight: 18 },
+  { id:'nocall', q:'Do they refuse a video call or office visit?', hint:'Legitimate recruiters are happy to meet on camera.', weight: 14 },
+  { id:'urgent', q:'Are they pressuring you to pay "today" or "the seat is closing"?', hint:'Urgency is a pressure tactic, not a hiring process.', weight: 10 },
+  { id:'noreg', q:'Is the company not findable on MCA or LinkedIn?', hint:'Search the name on mca.gov.in and LinkedIn before paying anything.', weight: 14 },
+];
+
+function buildScamQs(){
+  const el = document.getElementById('scamQs');
+  el.innerHTML = SCAM_Q.map(q => `
+    <div class="q">
+      <div class="txt">${q.q}<small>${q.hint}</small></div>
+      <div class="switch" data-id="${q.id}">
+        <button onclick="pick('${q.id}','yes',this)">Yes</button>
+        <button onclick="pick('${q.id}','no',this)">No</button>
+      </div>
+    </div>`).join('');
+}
+const picks = {};
+function pick(id, val, btn){
+  picks[id] = val;
+  const grp = btn.parentElement;
+  grp.querySelectorAll('button').forEach(b => b.className = '');
+  btn.className = val === 'yes' ? 'on-no' : 'on';
+}
+function resetScam(){
+  Object.keys(picks).forEach(k => delete picks[k]);
+  document.querySelectorAll('#scamQs .switch button').forEach(b => b.className = '');
+  document.getElementById('scamOut').classList.remove('show');
+}
+function checkScam(){
+  const answered = Object.keys(picks).length;
+  if (answered < 4){ alert('Please answer at least 4 questions.'); return; }
+  let score = 0, flags = [];
+  SCAM_Q.forEach(q => {
+    if (picks[q.id] === 'yes'){
+      score += q.weight;
+      flags.push({ bad:true, text:q.q.replace(/^Did |^Is |^Are |^Do /,'') });
+    }
+  });
+  const max = SCAM_Q.reduce((a,q)=>a+q.weight,0);
+  const pct = Math.round(score / max * 100);
+  let cls, label, verdict;
+  if (pct >= 45){ cls='risk-high'; label='HIGH RISK'; verdict='Multiple serious red flags. Do not pay anything. Do not share documents. Verify the company independently before going further.'; }
+  else if (pct >= 20){ cls='risk-mid'; label='BE CAREFUL'; verdict='Some warning signs. Ask for the company registration number, an official email from the company domain, and a video interview before you commit.'; }
+  else { cls='risk-low'; label='LOW RISK'; verdict='Few warning signs found. Still verify the company on MCA and LinkedIn, and never pay for a job.'; }
+
+  const out = document.getElementById('scamOut');
+  out.innerHTML = `
+    <div class="risk ${cls}">
+      <div class="score">${pct}<span style="font-size:.9rem">%</span></div>
+      <div><div style="font-weight:800">${label}</div><div class="lbl">${verdict}</div></div>
+    </div>
+    <ul class="flags">
+      ${SCAM_Q.map(q => `<li class="${picks[q.id]==='yes'?'bad':'ok'}">${q.q}</li>`).join('')}
+    </ul>
+    <p class="note" style="margin-top:14px">This is a warning-sign assessment, not proof of fraud. Report suspected job scams at cybercrime.gov.in or call 1930.</p>`;
+  out.classList.add('show');
+}
+
+/* ---------- ATS / MATCH ENGINE ---------- */
+const STOP = new Set(('a an the and or but if then than that this these those for with without from into onto of in on at to by as is are was were be been being have has had do does did will would can could should may might must not no nor so such own same very just also about above after again against all am any because before below between both during each few further here how i its itself more most my myself once only other out over s t too under until up while who whom why you your yours yourself we our ours they them their theirs he she his her hers it me him us').split(/\s+/));
+
+function words(t){
+  return (t || '').toLowerCase().replace(/[^a-z0-9+#.\s-]/g,' ').split(/\s+/).filter(w => w.length>2 && !STOP.has(w));
+}
+function kwFreq(list){
+  const m = {};
+  list.forEach(w => m[w] = (m[w]||0)+1);
+  return m;
+}
+
+function analyse(resumeText, jdText){
+  const rw = words(resumeText), jw = words(jdText);
+  if (!rw.length || !jw.length) return null;
+  const rset = new Set(rw);
+  const jfreq = kwFreq(jw);
+  // top JD keywords by frequency, keep meaningful ones
+  const jdKeys = Object.keys(jfreq).sort((a,b)=>jfreq[b]-jfreq[a]).slice(0, 40);
+  const found = jdKeys.filter(k => rset.has(k));
+  const missing = jdKeys.filter(k => !rset.has(k));
+  const pct = jdKeys.length ? Math.round(found.length / jdKeys.length * 100) : 0;
+
+  // readability signals
+  const raw = (resumeText||'');
+  const issues = [];
+  if (raw.length < 900) issues.push('Resume looks short — under about 150 words. Add projects, tools and outcomes.');
+  if (!/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i.test(raw)) issues.push('No email address detected.');
+  if (!/(\+91[\s-]?)?[6-9]\d{9}/.test(raw.replace(/[^0-9+]/g,''))) issues.push('No Indian mobile number detected.');
+  if (/[│┃┆┊|]/.test(raw)) issues.push('Table or column characters found — many ATS parsers break on tables.');
+  if (/\t{2,}/.test(raw)) issues.push('Multiple tabs found — can scramble reading order in parsing.');
+  if (!/experience|employment|work history/i.test(raw)) issues.push('No "Experience" heading found. Use a standard label.');
+  if (!/education|qualification|academic/i.test(raw)) issues.push('No "Education" heading found.');
+  if (!/skill/i.test(raw)) issues.push('No "Skills" heading found.');
+  if ((raw.match(/\b(managed|led|built|created|improved|reduced|delivered|launched|designed)\b/gi)||[]).length < 3)
+    issues.push('Few action verbs. Start bullets with led, built, improved, delivered.');
+  if (/\bresponsible for\b/i.test(raw)) issues.push('"Responsible for" is passive — rewrite as what you actually did.');
+
+  return { pct, found, missing, issues, jdKeys };
+}
+
+function renderAnalysis(outId, res){
+  const out = document.getElementById(outId);
+  if (!res){ out.innerHTML = '<p style="color:#ef4444">Please paste both your resume and the job description.</p>'; out.classList.add('show'); return; }
+  const cls = res.pct >= 70 ? 'risk-low' : res.pct >= 45 ? 'risk-mid' : 'risk-high';
+  const label = res.pct >= 70 ? 'STRONG MATCH' : res.pct >= 45 ? 'PARTIAL MATCH' : 'WEAK MATCH';
+  out.innerHTML = `
+    <div class="risk ${cls}">
+      <div class="score">${res.pct}<span style="font-size:.9rem">%</span></div>
+      <div><div style="font-weight:800">${label}</div><div class="lbl">${res.found.length} of ${res.jdKeys.length} key terms from the job description appear in your resume.</div></div>
+    </div>
+    ${res.missing.length ? `<div style="margin-top:14px"><strong style="font-size:.85rem">Missing keywords</strong><div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">${res.missing.slice(0,25).map(k=>`<span style="background:#2a1114;border:1px solid #4d1d22;color:#fca5a5;padding:3px 9px;border-radius:7px;font-size:.76rem">${k}</span>`).join('')}</div></div>` : ''}
+    ${res.found.length ? `<div style="margin-top:14px"><strong style="font-size:.85rem">Already present</strong><div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">${res.found.slice(0,25).map(k=>`<span style="background:#0f2419;border:1px solid #1c3b2c;color:#86efac;padding:3px 9px;border-radius:7px;font-size:.76rem">${k}</span>`).join('')}</div></div>` : ''}
+    ${res.issues.length ? `<div style="margin-top:16px"><strong style="font-size:.85rem">Parsing and readability issues</strong><ul class="flags" style="margin-top:8px">${res.issues.map(i=>`<li class="bad">${i}</li>`).join('')}</ul></div>` : '<p class="note" style="margin-top:14px">No structural problems detected.</p>'}
+    <p class="note" style="margin-top:14px">Keyword comparison only. This is not an employer's ATS score — no tool can produce that number.</p>`;
+  out.classList.add('show');
+}
+function runAts(){ renderAnalysis('atsOut', analyse(document.getElementById('atsResume').value, document.getElementById('atsJD').value)); }
+function runMatch(){ renderAnalysis('matchOut', analyse(document.getElementById('matchResume').value, document.getElementById('matchJD').value)); }
+
+/* ---------- REPAIR (client-side rewrite scaffold; AI call wired later) ---------- */
+function runRepair(){
+  const line = document.getElementById('repairIn').value.trim();
+  const role = document.getElementById('repairRole').value.trim();
+  const out = document.getElementById('repairOut');
+  if (!line){ out.innerHTML = '<p style="color:#ef4444">Paste a bullet point first.</p>'; out.classList.add('show'); return; }
+  out.innerHTML = `<p style="color:var(--muted)">AI rewrite is being connected. For now here is the rule we will apply:</p>
+  <ul class="flags" style="margin-top:10px">
+    <li class="ok">Start with a strong verb: led, built, delivered, reduced, improved, launched.</li>
+    <li class="ok">Say what changed, not what you were "responsible for".</li>
+    <li class="ok">Add a number only if you can defend it in an interview.</li>
+    <li class="ok">Never invent a company, a title, a date or a metric.</li>
+  </ul>
+  <p class="note">Your line: <em>${line.replace(/</g,'&lt;')}</em>${role?' — role: '+role.replace(/</g,'&lt;'):''}</p>`;
+  out.classList.add('show');
+}
+
+buildScamQs();
+</script>
+</body>
+</html>
