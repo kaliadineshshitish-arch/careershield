@@ -181,9 +181,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <h2>📄 ATS Reality Check</h2>
     <p class="lead">Paste your resume and the job description. We compare the words — the way screening software does.</p>
     <label>Your resume text</label>
-    <textarea id="atsResume" placeholder="Paste your full resume here…"></textarea>
+    <textarea id="atsResume" maxlength="20000" placeholder="Paste your full resume here…"></textarea>
     <label>Job description</label>
-    <textarea id="atsJD" placeholder="Paste the job posting here…"></textarea>
+    <textarea id="atsJD" maxlength="20000" placeholder="Paste the job posting here…"></textarea>
     <div style="margin-top:18px"><button class="btn btn-primary" onclick="runAts()">Check my resume</button></div>
     <div class="out" id="atsOut"></div>
     <p class="note">This is a keyword and readability assessment, not an employer's actual ATS score. No tool can give you that number — every company configures its own system.</p>
@@ -196,9 +196,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <h2>🎯 Job Match Score</h2>
     <p class="lead">Same engine, section by section. See exactly where you are strong and where you are missing.</p>
     <label>Your resume text</label>
-    <textarea id="matchResume" placeholder="Paste your resume…"></textarea>
+    <textarea id="matchResume" maxlength="20000" placeholder="Paste your resume…"></textarea>
     <label>Job description</label>
-    <textarea id="matchJD" placeholder="Paste the job posting…"></textarea>
+    <textarea id="matchJD" maxlength="20000" placeholder="Paste the job posting…"></textarea>
     <div style="margin-top:18px"><button class="btn btn-primary" onclick="runMatch()">Match me</button></div>
     <div class="out" id="matchOut"></div>
   </div>
@@ -210,7 +210,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <h2>🔧 Resume Repair</h2>
     <p class="lead">Paste one weak bullet point. Get a stronger version that stays true to what you actually did.</p>
     <label>Your bullet point</label>
-    <textarea id="repairIn" placeholder="Example: Responsible for handling customer queries and managing the team's reports."></textarea>
+    <textarea id="repairIn" maxlength="1200" placeholder="Example: Responsible for handling customer queries and managing the team's reports."></textarea>
     <label>Your role (optional)</label>
     <input type="text" id="repairRole" placeholder="Example: Customer support executive, 1 year">
     <div style="margin-top:18px"><button class="btn btn-primary" onclick="runRepair()">Improve this line</button></div>
@@ -236,9 +236,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <label>Company name</label>
     <input type="text" id="clCompany" placeholder="Example: Zoho">
     <label>Your key skills or experience (2-3 lines)</label>
-    <textarea id="clExp" placeholder="Example: B.Com graduate, 1 year internship at a CA firm, advanced Excel, Tally, basic SQL."></textarea>
+    <textarea id="clExp" maxlength="3000" placeholder="Example: B.Com graduate, 1 year internship at a CA firm, advanced Excel, Tally, basic SQL."></textarea>
     <label>Job description (optional but recommended)</label>
-    <textarea id="clJd" placeholder="Paste the job posting here…"></textarea>
+    <textarea id="clJd" maxlength="20000" placeholder="Paste the job posting here…"></textarea>
     <label>Language</label>
     <select id="clLang">
       <option value="english">English</option>
@@ -326,7 +326,7 @@ function checkScam(){
 const STOP = new Set(('a an the and or but if then than that this these those for with without from into onto of in on at to by as is are was were be been being have has had do does did will would can could should may might must not no nor so such own same very just also about above after again against all am any because before below between both during each few further here how i its itself more most my myself once only other out over s t too under until up while who whom why you your yours yourself we our ours they them their theirs he she his her hers it me him us').split(/\s+/));
 
 function words(t){
-  return (t || '').toLowerCase().replace(/[^a-z0-9+#.\s-]/g,' ').split(/\s+/).filter(w => w.length>2 && !STOP.has(w));
+  return String(t || '').slice(0, 60000).toLowerCase().replace(/[^a-z0-9+#.\s-]/g,' ').split(/\s+/).filter(w => w.length>2 && !STOP.has(w));
 }
 function kwFreq(list){
   const m = {};
@@ -373,9 +373,9 @@ function renderAnalysis(outId, res){
       <div class="score">${res.pct}<span style="font-size:.9rem">%</span></div>
       <div><div style="font-weight:800">${label}</div><div class="lbl">${res.found.length} of ${res.jdKeys.length} key terms from the job description appear in your resume.</div></div>
     </div>
-    ${res.missing.length ? `<div style="margin-top:14px"><strong style="font-size:.85rem">Missing keywords</strong><div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">${res.missing.slice(0,25).map(k=>`<span style="background:#2a1114;border:1px solid #4d1d22;color:#fca5a5;padding:3px 9px;border-radius:7px;font-size:.76rem">${k}</span>`).join('')}</div></div>` : ''}
-    ${res.found.length ? `<div style="margin-top:14px"><strong style="font-size:.85rem">Already present</strong><div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">${res.found.slice(0,25).map(k=>`<span style="background:#0f2419;border:1px solid #1c3b2c;color:#86efac;padding:3px 9px;border-radius:7px;font-size:.76rem">${k}</span>`).join('')}</div></div>` : ''}
-    ${res.issues.length ? `<div style="margin-top:16px"><strong style="font-size:.85rem">Parsing and readability issues</strong><ul class="flags" style="margin-top:8px">${res.issues.map(i=>`<li class="bad">${i}</li>`).join('')}</ul></div>` : '<p class="note" style="margin-top:14px">No structural problems detected.</p>'}
+    ${res.missing.length ? `<div style="margin-top:14px"><strong style="font-size:.85rem">Missing keywords</strong><div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">${res.missing.slice(0,25).map(k=>`<span style="background:#2a1114;border:1px solid #4d1d22;color:#fca5a5;padding:3px 9px;border-radius:7px;font-size:.76rem">${esc(k)}</span>`).join('')}</div></div>` : ''}
+    ${res.found.length ? `<div style="margin-top:14px"><strong style="font-size:.85rem">Already present</strong><div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px">${res.found.slice(0,25).map(k=>`<span style="background:#0f2419;border:1px solid #1c3b2c;color:#86efac;padding:3px 9px;border-radius:7px;font-size:.76rem">${esc(k)}</span>`).join('')}</div></div>` : ''}
+    ${res.issues.length ? `<div style="margin-top:16px"><strong style="font-size:.85rem">Parsing and readability issues</strong><ul class="flags" style="margin-top:8px">${res.issues.map(i=>`<li class="bad">${esc(i)}</li>`).join('')}</ul></div>` : '<p class="note" style="margin-top:14px">No structural problems detected.</p>'}
     <p class="note" style="margin-top:14px">Keyword comparison only. This is not an employer's ATS score — no tool can produce that number.</p>`;
   out.classList.add('show');
   showPdfBar(outId === 'atsOut' ? 'ats' : 'match');
@@ -406,7 +406,7 @@ async function runRepair(){
     out.classList.add('show');
     return;
   }
-  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + txt.replace(/</g,'&lt;') + '</div>';
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + esc(txt) + '</div>';
   out.classList.add('show');
   showPdfBar('repair');
 }
@@ -426,9 +426,20 @@ async function runCover(){
   }, 'coverOut', 'Writing your cover letter…');
 
   if (txt === null) return;
-  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + txt.replace(/</g,'&lt;') + '</div>';
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + esc(txt) + '</div>';
   out.classList.add('show');
   showPdfBar('cover');
+}
+
+
+/* ---------- SECURITY: single escape helper ---------- */
+function esc(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 /* ---------- SHARED AI CLIENT (CreatorMarket's ai-tools function) ---------- */
@@ -436,18 +447,37 @@ const AI_BASE = 'https://eqwmsjsqrhgyfpyssfop.supabase.co/functions/v1';
 const AI_KEY  = 'sb_publishable_wYc_3ArDw5ghAcgYYxX_DA_LsrI4CsE';
 
 async function callAI(payload){
-  const res = await fetch(AI_BASE + '/ai-tools', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY },
-    body: JSON.stringify(payload)
-  });
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 45000);
+  let res;
+  try {
+    res = await fetch(AI_BASE + '/ai-tools', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY },
+      body: JSON.stringify(payload),
+      signal: ctrl.signal
+    });
+  } finally {
+    clearTimeout(timer);
+  }
   let data = {};
   try { data = await res.json(); } catch(e){}
   return { ok: res.ok, status: res.status, data };
 }
 
+const AI_MIN_GAP_MS = 8000;
+let lastAiAt = 0;
+
 async function aiText(payload, outEl, busyLabel){
   const out = document.getElementById(outEl);
+  const now = Date.now();
+  if (now - lastAiAt < AI_MIN_GAP_MS){
+    const wait = Math.ceil((AI_MIN_GAP_MS - (now - lastAiAt)) / 1000);
+    out.innerHTML = '<p style="color:#f59e0b">Please wait ' + wait + 's before the next AI request.</p>';
+    out.classList.add('show');
+    return null;
+  }
+  lastAiAt = now;
   out.innerHTML = '<p style="color:var(--muted)">' + busyLabel + '</p>';
   out.classList.add('show');
   try {
@@ -470,12 +500,11 @@ async function loadPdfJs(){
   if (window.pdfjsLib) return window.pdfjsLib;
   await new Promise((res, rej) => {
     const s = document.createElement('script');
-    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.src = '/vendor/pdf.min.js';          // self-hosted, no third-party CDN
     s.onload = res; s.onerror = rej;
     document.head.appendChild(s);
   });
-  window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  window.pdfjsLib.GlobalWorkerOptions.workerSrc = '/vendor/pdf.worker.min.js';
   return window.pdfjsLib;
 }
 
@@ -489,11 +518,16 @@ async function readPdf(){
     const lib = await loadPdfJs();
     const buf = await f.arrayBuffer();
     const pdf = await lib.getDocument({ data: buf }).promise;
+    if (pdf.numPages > 8){
+      out.innerHTML = '<p style="color:#ef4444">This PDF has ' + pdf.numPages + ' pages. Please upload a resume of 8 pages or fewer.</p>';
+      return;
+    }
     let txt = '';
     for (let i = 1; i <= pdf.numPages; i++){
       const page = await pdf.getPage(i);
       const content = await page.getTextContent();
       txt += content.items.map(it => it.str).join(' ') + '\n';
+      if (txt.length > 60000){ txt = txt.slice(0, 60000); break; }
     }
     pdfText = txt;
     out.innerHTML = `<p style="color:var(--green);font-weight:700">Read ${pdf.numPages} page(s), ${txt.trim().split(/\s+/).length} words.</p><p class="note">Now press "Read my resume" to see the full report.</p>`;
@@ -543,7 +577,7 @@ function runReality(){
       <div><div style="font-weight:800">${label}</div><div class="lbl">${words} words read from your PDF across the checks below.</div></div>
     </div>
     <ul class="flags">
-      ${checks.map(c => `<li class="${c.ok?'ok':'bad'}"><strong>${c.label}</strong> — ${c.detail}</li>`).join('')}
+      ${checks.map(c => `<li class="${c.ok?'ok':'bad'}"><strong>${esc(c.label)}</strong> — ${esc(c.detail)}</li>`).join('')}
     </ul>
     <p class="note">This shows what a parser can read, not an employer's score. Different systems behave differently.</p>`;
   out.classList.add('show');
