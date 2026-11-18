@@ -91,6 +91,24 @@ ul.flags li.ok:before{content:"✓";color:var(--green);font-weight:800}
 footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px;color:var(--faint);font-size:.8rem}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .hidden{display:none!important}
+
+@media print{
+  :root{--bg:#fff;--bg2:#f5f7fa;--card:#fff;--line:#d7dee9;--ink:#0b1220;--muted:#43536e;--faint:#66748c}
+  body{background:#fff;color:#0b1220}
+  nav,header,.grid,footer,.btn,.switch,.cta,.note,.lead,.eyebrow,
+  input[type=file],textarea,label,#scamQs,.badge{display:none!important}
+  .wrap{max-width:100%;padding:0}
+  section{padding:0;display:none}
+  section.printme{display:block!important}
+  .tool{border:none;background:#fff;padding:0;margin:0}
+  .tool h2{font-size:1.2rem;margin-bottom:12px}
+  .out{display:block!important;background:#fff;border:none;padding:0;white-space:normal}
+  .risk{border:1px solid #d7dee9!important;background:#f5f7fa!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  ul.flags li{border-bottom:1px solid #e4e9f1}
+  .pdfbar{display:none!important}
+  @page{margin:14mm}
+}
+
 </style>
 </head>
 <body>
@@ -101,6 +119,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <a href="#scam">Scam Check</a>
     <a href="#ats">ATS Check</a>
     <a href="#match">Job Match</a>
+    <a href="#reality">Reality</a>
     <a href="#repair">Repair</a>
   </div>
 </div></nav>
@@ -121,6 +140,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="card"><div class="ico">🚨</div><h3>Job Offer Red Flag Check</h3><span class="badge badge-hero">Flagship</span><p>Seven questions that catch the pattern behind almost every fake placement racket in India. No percentage, no false certainty — just the flags that actually matter.</p></div>
     <div class="card"><div class="ico">📄</div><h3>ATS Reality Check</h3><p>Paste your resume and the job description. See which keywords the software will find, which it will miss, and where your formatting breaks parsing.</p></div>
     <div class="card"><div class="ico">🎯</div><h3>Job Match Score</h3><p>How close is your resume to this specific job? Section by section — skills, experience, education — with the exact gaps listed.</p></div>
+    <div class="card"><div class="ico">🔍</div><h3>Resume Reality Check</h3><p>Upload your PDF. See exactly what a screening system can and cannot read — your name, contact, headings, dates, and whether tables break it.</p></div>
     <div class="card"><div class="ico">🔧</div><h3>Resume Repair</h3><p>Turn plain responsibilities into achievement lines that are true. No invented numbers, no fake experience.</p></div>
   </div>
 </section>
@@ -137,6 +157,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     </div>
     <div class="out" id="scamOut"></div>
     <p class="note">CareerShield does not accuse any company. These are the patterns Indian cyber crime cells report most often. If a real employer is asking you for money, walk away and report it on cybercrime.gov.in.</p>
+  </div>
+</section>
+
+<!-- ============ REALITY CHECK ============ -->
+<section class="wrap" id="reality">
+  <div class="tool">
+    <h2>🔍 Resume Reality Check</h2>
+    <p class="lead">Upload your resume PDF. We read it the way parsing software does and show you what it finds — and what it misses.</p>
+    <label>Your resume (PDF, under 2 MB)</label>
+    <input type="file" id="pdfFile" accept="application/pdf" onchange="readPdf()" style="padding:10px;background:var(--bg2);border:1px solid var(--line);border-radius:11px;width:100%;color:var(--ink);font-size:.86rem">
+    <div style="margin-top:18px"><button class="btn btn-primary" onclick="runReality()">Read my resume</button></div>
+    <div class="out" id="realityOut"></div>
+    <p class="note">Your PDF is read inside your browser with pdf.js. It is never uploaded to any server.</p>
   </div>
 </section>
 
@@ -183,6 +216,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <p class="note">We never invent numbers, companies or achievements. If we cannot make a line stronger without lying, we say so.</p>
   </div>
 </section>
+
+
+<div class="pdfbar" id="pdfbar" style="display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:80;background:#151f33;border:1px solid #243352;border-radius:14px;padding:10px 14px;box-shadow:0 10px 30px rgba(0,0,0,.45);display:none;align-items:center;gap:10px">
+  <span style="font-size:.78rem;color:#8fa2c4">Save this report</span>
+  <button class="btn btn-primary btn-sm" onclick="savePdf()">Download PDF</button>
+</div>
 
 <footer><div class="wrap">
   <div>CareerShield — a DK Digital Studio product</div>
@@ -252,6 +291,7 @@ function checkScam(){
     </ul>
     <p class="note" style="margin-top:14px">This is a warning-sign assessment, not proof of fraud. Report suspected job scams at cybercrime.gov.in or call 1930.</p>`;
   out.classList.add('show');
+  showPdfBar('scam');
 }
 
 /* ---------- ATS / MATCH ENGINE ---------- */
@@ -310,6 +350,7 @@ function renderAnalysis(outId, res){
     ${res.issues.length ? `<div style="margin-top:16px"><strong style="font-size:.85rem">Parsing and readability issues</strong><ul class="flags" style="margin-top:8px">${res.issues.map(i=>`<li class="bad">${i}</li>`).join('')}</ul></div>` : '<p class="note" style="margin-top:14px">No structural problems detected.</p>'}
     <p class="note" style="margin-top:14px">Keyword comparison only. This is not an employer's ATS score — no tool can produce that number.</p>`;
   out.classList.add('show');
+  showPdfBar(outId === 'atsOut' ? 'ats' : 'match');
 }
 function runAts(){ renderAnalysis('atsOut', analyse(document.getElementById('atsResume').value, document.getElementById('atsJD').value)); }
 function runMatch(){ renderAnalysis('matchOut', analyse(document.getElementById('matchResume').value, document.getElementById('matchJD').value)); }
@@ -330,6 +371,114 @@ function runRepair(){
   <p class="note">Your line: <em>${line.replace(/</g,'&lt;')}</em>${role?' — role: '+role.replace(/</g,'&lt;'):''}</p>`;
   out.classList.add('show');
 }
+
+
+/* ---------- REALITY CHECK (pdf.js) ---------- */
+let pdfText = '';
+async function loadPdfJs(){
+  if (window.pdfjsLib) return window.pdfjsLib;
+  await new Promise((res, rej) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = res; s.onerror = rej;
+    document.head.appendChild(s);
+  });
+  window.pdfjsLib.GlobalWorkerOptions.workerSrc =
+    'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  return window.pdfjsLib;
+}
+
+async function readPdf(){
+  const f = document.getElementById('pdfFile').files[0];
+  const out = document.getElementById('realityOut');
+  if (!f) return;
+  if (f.size > 2 * 1024 * 1024){ out.innerHTML = '<p style="color:#ef4444">PDF is over 2 MB. Please compress it first.</p>'; out.classList.add('show'); return; }
+  out.innerHTML = '<p style="color:var(--muted)">Reading your PDF…</p>'; out.classList.add('show');
+  try {
+    const lib = await loadPdfJs();
+    const buf = await f.arrayBuffer();
+    const pdf = await lib.getDocument({ data: buf }).promise;
+    let txt = '';
+    for (let i = 1; i <= pdf.numPages; i++){
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      txt += content.items.map(it => it.str).join(' ') + '\n';
+    }
+    pdfText = txt;
+    out.innerHTML = `<p style="color:var(--green);font-weight:700">Read ${pdf.numPages} page(s), ${txt.trim().split(/\s+/).length} words.</p><p class="note">Now press "Read my resume" to see the full report.</p>`;
+  } catch(e){
+    out.innerHTML = '<p style="color:#ef4444">Could not read that PDF. It may be a scanned image — try a text-based PDF export.</p>';
+  }
+}
+
+function runReality(){
+  const out = document.getElementById('realityOut');
+  const raw = pdfText;
+  if (!raw || raw.trim().length < 50){
+    out.innerHTML = '<p style="color:#ef4444">Upload a PDF first.</p>'; out.classList.add('show'); return;
+  }
+  const words = raw.trim().split(/\s+/).length;
+  const checks = [];
+
+  const email = raw.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i);
+  const phone = raw.replace(/[^0-9+]/g,'').match(/(\+91)?[6-9]\d{9}/);
+  checks.push({ ok: !!email, label: 'Email address', detail: email ? email[0] : 'Not found — add a plain-text email on line 1.' });
+  checks.push({ ok: !!phone, label: 'Phone number', detail: phone ? phone[0] : 'No Indian mobile number detected.' });
+
+  const hasExp = /experience|employment|work history|professional experience/i.test(raw);
+  const hasEdu = /education|qualification|academic/i.test(raw);
+  const hasSkills = /skills|technical skills|core competencies/i.test(raw);
+  checks.push({ ok: hasExp, label: 'Experience heading', detail: hasExp ? 'Standard label found.' : 'No standard "Experience" heading — parsers may skip this section.' });
+  checks.push({ ok: hasEdu, label: 'Education heading', detail: hasEdu ? 'Standard label found.' : 'No standard "Education" heading found.' });
+  checks.push({ ok: hasSkills, label: 'Skills heading', detail: hasSkills ? 'Standard label found.' : 'No "Skills" heading found.' });
+
+  const dates = raw.match(/\b(19|20)\d{2}\b/g) || [];
+  checks.push({ ok: dates.length >= 2, label: 'Dates readable', detail: dates.length >= 2 ? dates.length + ' year values found.' : 'Few or no years detected — check your date format.' });
+
+  const hasTableChars = /[│┃┆┊]/.test(raw);
+  const hasTabs = /\t{2,}/.test(raw);
+  checks.push({ ok: !hasTableChars && !hasTabs, label: 'No table or column artefacts', detail: (hasTableChars || hasTabs) ? 'Table/column characters found — many parsers scramble these.' : 'Clean single-column flow detected.' });
+
+  const bullets = (raw.match(/[•·▪◦‣]/g) || []).length;
+  checks.push({ ok: true, label: 'Bullet characters', detail: bullets + ' bullet glyphs found.' + (bullets === 0 ? ' Using plain hyphens is safer.' : '') });
+
+  const passed = checks.filter(c => c.ok).length;
+  const cls = passed >= 7 ? 'risk-low' : passed >= 5 ? 'risk-mid' : 'risk-high';
+  const label = passed >= 7 ? 'READS WELL' : passed >= 5 ? 'NEEDS WORK' : 'PARSING RISK';
+
+  out.innerHTML = `
+    <div class="risk ${cls}">
+      <div class="score">${passed}/${checks.length}</div>
+      <div><div style="font-weight:800">${label}</div><div class="lbl">${words} words read from your PDF across the checks below.</div></div>
+    </div>
+    <ul class="flags">
+      ${checks.map(c => `<li class="${c.ok?'ok':'bad'}"><strong>${c.label}</strong> — ${c.detail}</li>`).join('')}
+    </ul>
+    <p class="note">This shows what a parser can read, not an employer's score. Different systems behave differently.</p>`;
+  out.classList.add('show');
+  showPdfBar('reality');
+}
+
+
+/* ---------- PDF EXPORT ---------- */
+let lastSection = null;
+function showPdfBar(sectionId){
+  lastSection = sectionId;
+  const bar = document.getElementById('pdfbar');
+  bar.style.display = 'flex';
+}
+function savePdf(){
+  document.querySelectorAll('section').forEach(s => s.classList.remove('printme'));
+  const sec = document.getElementById(lastSection);
+  if (sec) sec.classList.add('printme');
+  window.print();
+  setTimeout(() => {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('printme'));
+  }, 500);
+}
+window.addEventListener('afterprint', () => {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('printme'));
+});
 
 buildScamQs();
 </script>
