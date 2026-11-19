@@ -121,6 +121,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <a href="#match">Job Match</a>
     <a href="#reality">Reality</a>
     <a href="#cover">Cover Letter</a>
+    <a href="#pricing">Pricing</a>
     <a href="#repair">Repair</a>
   </div>
 </div></nav>
@@ -248,6 +249,75 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div style="margin-top:18px"><button class="btn btn-primary" onclick="runCover()">Write my cover letter</button></div>
     <div class="out" id="coverOut"></div>
     <p class="note">We never invent employers, degrees or numbers. If your input is thin, the letter will be honest rather than padded.</p>
+  </div>
+</section>
+
+
+<!-- ============ PRICING ============ -->
+<section class="wrap" id="pricing">
+  <div class="tool">
+    <h2>Simple pricing. No subscription.</h2>
+    <p class="lead">One-time payment. No auto-renew, no card on file, nothing to cancel later. That is the whole point.</p>
+
+    <div id="licBar" style="display:none;background:#0f2419;border:1px solid #1c3b2c;border-radius:13px;padding:14px 16px;margin-bottom:18px">
+      <strong style="color:#86efac" id="licBarText">Pro active</strong>
+    </div>
+
+    <div class="grid grid-3" style="margin-top:8px">
+      <div class="card" style="border-color:#243352">
+        <div style="font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px">Free forever</div>
+        <div style="font-size:1.9rem;font-weight:800;letter-spacing:-.03em">&#8377;0</div>
+        <ul class="flags" style="margin-top:14px">
+          <li class="ok">All 6 tools, no signup</li>
+          <li class="ok">3 AI calls per day</li>
+          <li class="ok">PDF export</li>
+          <li class="ok">Data stays on your device</li>
+        </ul>
+      </div>
+
+      <div class="card" style="border-color:#22c55e;box-shadow:0 0 0 1px #22c55e inset">
+        <div style="font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--green);margin-bottom:8px">Quick Pack</div>
+        <div style="font-size:1.9rem;font-weight:800;letter-spacing:-.03em">&#8377;49</div>
+        <div style="font-size:.76rem;color:var(--faint);margin-top:2px">one time</div>
+        <ul class="flags" style="margin-top:14px">
+          <li class="ok">30 AI calls</li>
+          <li class="ok">Clean PDF, no footer</li>
+          <li class="ok">Valid 1 year</li>
+        </ul>
+        <button class="btn btn-primary btn-sm" style="margin-top:14px;width:100%;justify-content:center" onclick="buy('quick')">Buy &#8377;49</button>
+      </div>
+
+      <div class="card">
+        <div style="font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px">Career Starter</div>
+        <div style="font-size:1.9rem;font-weight:800;letter-spacing:-.03em">&#8377;149</div>
+        <div style="font-size:.76rem;color:var(--faint);margin-top:2px">one time</div>
+        <ul class="flags" style="margin-top:14px">
+          <li class="ok">120 AI calls</li>
+          <li class="ok">Clean PDF, no footer</li>
+          <li class="ok">Every future tool, 1 year</li>
+        </ul>
+        <button class="btn btn-ghost btn-sm" style="margin-top:14px;width:100%;justify-content:center" onclick="buy('starter')">Buy &#8377;149</button>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px;border-color:#243352">
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center">
+        <div style="flex:1;min-width:220px">
+          <div style="font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:6px">Career Pro</div>
+          <div style="font-size:1.5rem;font-weight:800">&#8377;299 <span style="font-size:.8rem;font-weight:500;color:var(--faint)">one time &middot; unlimited AI for 1 year</span></div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="buy('pro')">Buy &#8377;299</button>
+      </div>
+    </div>
+
+    <label style="margin-top:22px">Already bought? Paste your license key</label>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <input type="text" id="licInput" placeholder="CS-XXXX-XXXX-XXXX" style="flex:1;min-width:200px;text-transform:uppercase">
+      <button class="btn btn-ghost btn-sm" onclick="applyLicence()">Activate</button>
+    </div>
+    <div class="out" id="licOut" style="margin-top:12px"></div>
+
+    <p class="note">Payments are handled by Razorpay. We never see or store your card or UPI details. No auto-renewal is created.</p>
   </div>
 </section>
 
@@ -470,6 +540,13 @@ let lastAiAt = 0;
 
 async function aiText(payload, outEl, busyLabel){
   const out = document.getElementById(outEl);
+  if (quotaLeft() <= 0){
+    out.innerHTML = '<p style="color:#f59e0b">You have used your free AI calls for today. '
+      + 'Come back tomorrow, or <a href="#pricing" style="color:#22c55e">get a pack</a> for more.</p>';
+    out.classList.add('show');
+    return null;
+  }
+
   const now = Date.now();
   if (now - lastAiAt < AI_MIN_GAP_MS){
     const wait = Math.ceil((AI_MIN_GAP_MS - (now - lastAiAt)) / 1000);
@@ -487,6 +564,7 @@ async function aiText(payload, outEl, busyLabel){
         + (r.data && r.data.message ? r.data.message : 'Server returned ' + r.status + '.') + '</p>';
       return null;
     }
+    bumpQuota();
     return r.data.content || '';
   } catch(e){
     out.innerHTML = '<p style="color:#ef4444">Could not reach the AI service. Check your connection and try again.</p>';
@@ -605,7 +683,157 @@ window.addEventListener('afterprint', () => {
   document.querySelectorAll('section').forEach(s => s.classList.remove('printme'));
 });
 
+
+/* ---------- LICENCE (localStorage, no login) ---------- */
+const LIC_KEY = 'cs_licence_v1';
+
+function getLicence(){
+  try { return JSON.parse(localStorage.getItem(LIC_KEY) || 'null'); } catch(e){ return null; }
+}
+function setLicence(obj){
+  try { localStorage.setItem(LIC_KEY, JSON.stringify(obj)); } catch(e){}
+  paintLicence();
+}
+function licenceValid(){
+  const l = getLicence();
+  if (!l || !l.key) return false;
+  if (l.expires && Date.now() > l.expires) return false;
+  return true;
+}
+function paintLicence(){
+  const bar = document.getElementById('licBar');
+  const txt = document.getElementById('licBarText');
+  if (!bar || !txt) return;
+  const l = getLicence();
+  if (licenceValid()){
+    const d = new Date(l.expires).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+    txt.textContent = 'Pro active — ' + (l.calls === 'unlimited' ? 'unlimited AI' : l.calls + ' AI calls') + ' · valid till ' + d;
+    bar.style.display = 'block';
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+// Licence key format: CS-XXXX-XXXX-XXXX  (checksum like Maasathi)
+function keyValid(k){
+  const clean = String(k || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (!/^CS[0-9A-Z]{16}$/.test(clean)) return false;
+  const body = clean.slice(2, 14);
+  let sum = 0;
+  for (let i = 0; i < body.length; i++) sum += body.charCodeAt(i) * (i + 7);
+  const expected = (sum * 7919 % 1679616).toString(36).toUpperCase().padStart(4, '0').slice(0, 4);
+  return clean.slice(14) === expected;
+}
+
+function applyLicence(){
+  const raw = document.getElementById('licInput').value.trim();
+  const out = document.getElementById('licOut');
+  if (!raw){ out.innerHTML = '<p style="color:#ef4444">Paste your key first.</p>'; out.classList.add('show'); return; }
+  if (!keyValid(raw)){
+    out.innerHTML = '<p style="color:#ef4444">That key is not valid. Check for a missing character.</p>';
+    out.classList.add('show');
+    return;
+  }
+  // tier is encoded in the first body char: Q = quick, S = starter, P = pro
+  const clean = raw.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  const tierChar = clean[2];
+  const calls = tierChar === 'P' ? 'unlimited' : tierChar === 'S' ? 120 : 30;
+  setLicence({ key: clean, tier: tierChar, calls, expires: Date.now() + 365*24*60*60*1000 });
+  out.innerHTML = '<p style="color:var(--green);font-weight:700">Pro activated. Thank you.</p>';
+  out.classList.add('show');
+}
+
+/* ---------- FREE QUOTA (3 AI calls per day) ---------- */
+const QUOTA_KEY = 'cs_quota_v1';
+const FREE_PER_DAY = 3;
+
+function todayStr(){ return new Date().toISOString().slice(0, 10); }
+function getQuota(){
+  try {
+    const q = JSON.parse(localStorage.getItem(QUOTA_KEY) || 'null');
+    if (!q || q.day !== todayStr()) return { day: todayStr(), used: 0 };
+    return q;
+  } catch(e){ return { day: todayStr(), used: 0 }; }
+}
+function bumpQuota(){
+  const q = getQuota();
+  q.used += 1;
+  try { localStorage.setItem(QUOTA_KEY, JSON.stringify(q)); } catch(e){}
+}
+function quotaLeft(){
+  if (licenceValid()){
+    const l = getLicence();
+    if (l.calls === 'unlimited') return Infinity;
+    return l.used === undefined ? l.calls : Math.max(0, l.calls - (l.used || 0));
+  }
+  return Math.max(0, FREE_PER_DAY - getQuota().used);
+}
+
+/* ---------- RAZORPAY ---------- */
+const PAY_BASE = 'https://eqwmsjsqrhgyfpyssfop.supabase.co/functions/v1';
+
+async function buy(plan){
+  const out = document.getElementById('licOut');
+  if (out){ out.innerHTML = '<p style="color:var(--muted)">Opening secure checkout…</p>'; out.classList.add('show'); }
+
+  let data;
+  try {
+    const res = await fetch(PAY_BASE + '/razorpay-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY },
+      body: JSON.stringify({ plan: plan, site: 'careershield' })
+    });
+    data = await res.json();
+    if (!res.ok){
+      if (out){
+        out.innerHTML = '<p style="color:#f59e0b">Payments are not switched on yet. '
+          + (data && data.message ? data.message : 'The server returned ' + res.status + '.') + '</p>';
+        out.classList.add('show');
+      }
+      return;
+    }
+  } catch(e){
+    if (out){ out.innerHTML = '<p style="color:#ef4444">Could not reach the payment server. Check your connection.</p>'; out.classList.add('show'); }
+    return;
+  }
+
+  if (typeof Razorpay === 'undefined'){
+    if (out){ out.innerHTML = '<p style="color:#ef4444">Checkout could not load. Disable your ad blocker and try again.</p>'; out.classList.add('show'); }
+    return;
+  }
+
+  const label = plan === 'quick' ? 'Quick Pack' : plan === 'starter' ? 'Career Starter' : 'Career Pro';
+
+  const rzp = new Razorpay({
+    key: data.key_id,
+    order_id: data.order_id,
+    amount: data.amount,
+    currency: data.currency,
+    name: 'CareerShield',
+    description: label + ' — one time, no auto-renew',
+    theme: { color: '#22c55e' },
+    handler: function (r){
+      if (out){
+        out.innerHTML = '<div class="risk risk-low"><div class="score">OK</div><div>'
+          + '<div style="font-weight:800">Payment received</div>'
+          + '<div class="lbl">Reference ' + esc(r.razorpay_payment_id) + '. '
+          + 'Your license key is being emailed to you. It usually takes under a minute.</div></div></div>';
+        out.classList.add('show');
+      }
+    },
+    modal: {
+      ondismiss: function (){
+        if (out){ out.innerHTML = '<p style="color:var(--muted)">Checkout closed. Nothing was charged.</p>'; out.classList.add('show'); }
+      }
+    }
+  });
+  rzp.open();
+}
+
+paintLicence();
+
 buildScamQs();
 </script>
+<script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 </body>
 </html>
