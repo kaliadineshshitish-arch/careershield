@@ -778,7 +778,7 @@ async function buy(plan){
 
   let data;
   try {
-    const res = await fetch(PAY_BASE + '/razorpay-order', {
+    const res = await fetch(PAY_BASE + '/bright-task', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY },
       body: JSON.stringify({ plan: plan, site: 'careershield' })
