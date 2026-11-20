@@ -791,7 +791,7 @@ function copyKey(el){
 async function claimKey(paymentId, plan){
   for (let i = 0; i < 4; i++){
     try {
-      const res = await fetch(PAY_BASE + '/bright-task', {
+      const res = await fetch(PAY_BASE + '/careershield-pay', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY },
         body: JSON.stringify({ action: 'claim', payment_id: paymentId, plan: plan })
@@ -814,7 +814,7 @@ async function buy(plan){
 
   let data;
   try {
-    const res = await fetch(PAY_BASE + '/bright-task', {
+    const res = await fetch(PAY_BASE + '/careershield-pay', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY },
       body: JSON.stringify({ action: 'order', plan: plan, site: 'careershield' })
