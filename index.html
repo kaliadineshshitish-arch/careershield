@@ -109,6 +109,29 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   @page{margin:14mm}
 }
 
+
+/* ---------- REVIEWS ---------- */
+.rev-wrap{margin-top:18px}
+.rev-stats{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.rev-avg{font-size:2rem;font-weight:900;line-height:1}
+.rev-stars{color:#f59e0b;font-size:1rem;letter-spacing:2px}
+.rev-count{color:var(--muted);font-size:.82rem}
+.rev-grid{display:grid;gap:12px}
+.rev-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.rev-card .who{font-weight:800;font-size:.9rem;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rev-card .when{font-weight:500;color:var(--faint);font-size:.72rem}
+.rev-card .stars{color:#f59e0b;font-size:.85rem;letter-spacing:1.5px;margin:5px 0 7px}
+.rev-card p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.5}
+.rev-empty{background:var(--card);border:1px dashed var(--line);border-radius:12px;padding:22px;text-align:center;color:var(--muted);font-size:.9rem}
+.rev-form{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:16px}
+.rev-form h3{margin:0 0 4px;font-size:.98rem}
+.rev-form .hint{color:var(--faint);font-size:.78rem;margin:0 0 12px}
+.rev-rate{display:flex;gap:6px;margin-bottom:12px}
+.rev-rate button{background:none;border:0;font-size:1.6rem;line-height:1;color:#334765;cursor:pointer;padding:0 2px;transition:color .12s}
+.rev-rate button.on{color:#f59e0b}
+.rev-form input,.rev-form textarea{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:10px 12px;font:inherit;font-size:.9rem;margin-bottom:10px}
+.rev-form textarea{min-height:82px;resize:vertical}
+.rev-msg{font-size:.85rem;margin-top:10px}
 </style>
 </head>
 <body>
@@ -318,6 +341,29 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="out" id="licOut" style="margin-top:12px"></div>
 
     <p class="note">Payments are handled by Razorpay. We never see or store your card or UPI details. No auto-renewal is created.</p>
+  </div>
+</section>
+
+
+<section class="wrap" id="reviews">
+  <h2 class="section-title">What job seekers say</h2>
+  <p class="lead">Every review below was written by someone who used the tools. We publish them as they are — we do not write them.</p>
+
+  <div class="rev-wrap">
+    <div class="rev-stats" id="revStats"></div>
+    <div class="rev-grid" id="revGrid"><div class="rev-empty">Loading reviews…</div></div>
+
+    <div class="rev-form">
+      <h3>Leave a review</h3>
+      <p class="hint">Used one of the tools? Tell others what happened. Reviews are checked before they appear.</p>
+      <div class="rev-rate" id="revRate">
+        <button type="button" data-v="1">★</button><button type="button" data-v="2">★</button><button type="button" data-v="3">★</button><button type="button" data-v="4">★</button><button type="button" data-v="5">★</button>
+      </div>
+      <input id="revName" maxlength="40" placeholder="Your first name" autocomplete="off">
+      <textarea id="revText" maxlength="600" placeholder="What did you use, and what changed for you?"></textarea>
+      <button class="btn btn-primary" id="revSend" onclick="sendReview()">Post review</button>
+      <div class="rev-msg" id="revMsg"></div>
+    </div>
   </div>
 </section>
 
@@ -805,6 +851,114 @@ async function claimKey(paymentId, plan){
   return null;
 }
 
+
+/* ---------- REVIEWS ---------- */
+const SUPA_REST = 'https://eqwmsjsqrhgyfpyssfop.supabase.co/rest/v1';
+let revRating = 0;
+let revLast = 0;
+
+function starStr(n){
+  const k = Math.max(0, Math.min(5, Math.round(n)));
+  return '★★★★★'.slice(0, k) + '☆☆☆☆☆'.slice(0, 5 - k);
+}
+
+(function initRating(){
+  const box = document.getElementById('revRate');
+  if (!box) return;
+  box.addEventListener('click', function(e){
+    const b = e.target.closest('button');
+    if (!b) return;
+    revRating = Number(b.getAttribute('data-v')) || 0;
+    Array.prototype.forEach.call(box.children, function(x){
+      x.classList.toggle('on', Number(x.getAttribute('data-v')) <= revRating);
+    });
+  });
+})();
+
+async function loadReviews(){
+  const grid = document.getElementById('revGrid');
+  const stats = document.getElementById('revStats');
+  if (!grid) return;
+  let rows = [];
+  try {
+    const r = await fetch(SUPA_REST + '/reviews?select=name,rating,comment,created_at&approved=eq.true&order=created_at.desc&limit=24', {
+      headers: { 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY }
+    });
+    if (r.ok) rows = await r.json();
+  } catch(e){}
+
+  if (!Array.isArray(rows) || rows.length === 0){
+    grid.innerHTML = '<div class="rev-empty"><strong>No reviews yet.</strong><br>You could be the first — the form is just below.</div>';
+    if (stats) stats.innerHTML = '';
+    return;
+  }
+
+  const avg = rows.reduce(function(s, x){ return s + (Number(x.rating) || 0); }, 0) / rows.length;
+  if (stats){
+    stats.innerHTML = '<div class="rev-avg">' + avg.toFixed(1) + '</div>'
+      + '<div><div class="rev-stars">' + starStr(avg) + '</div>'
+      + '<div class="rev-count">' + rows.length + (rows.length === 1 ? ' review' : ' reviews') + '</div></div>';
+  }
+
+  grid.innerHTML = rows.map(function(x){
+    const d = new Date(x.created_at);
+    const when = isNaN(d) ? '' : d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
+    return '<div class="rev-card">'
+      + '<div class="who"><span>' + esc(x.name || 'Anonymous') + '</span><span class="when">' + esc(when) + '</span></div>'
+      + '<div class="stars">' + starStr(Number(x.rating) || 0) + '</div>'
+      + '<p>' + esc(x.comment || '') + '</p></div>';
+  }).join('');
+}
+
+async function sendReview(){
+  const msg = document.getElementById('revMsg');
+  const name = (document.getElementById('revName').value || '').trim();
+  const text = (document.getElementById('revText').value || '').trim();
+
+  if (Date.now() - revLast < 60000){
+    msg.style.color = 'var(--amber)';
+    msg.textContent = 'Please wait a minute before posting another review.';
+    return;
+  }
+  if (name.length < 2){ msg.style.color = 'var(--red)'; msg.textContent = 'Please add your first name.'; return; }
+  if (!revRating){ msg.style.color = 'var(--red)'; msg.textContent = 'Pick a star rating.'; return; }
+  if (text.length < 10){ msg.style.color = 'var(--red)'; msg.textContent = 'Please write at least 10 characters.'; return; }
+
+  const btn = document.getElementById('revSend');
+  btn.disabled = true;
+  msg.style.color = 'var(--muted)';
+  msg.textContent = 'Posting…';
+
+  try {
+    const r = await fetch(SUPA_REST + '/reviews', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': AI_KEY,
+        'Authorization': 'Bearer ' + AI_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ name: name.slice(0, 40), rating: revRating, comment: text.slice(0, 600) })
+    });
+    if (!r.ok){
+      msg.style.color = 'var(--red)';
+      msg.textContent = 'Could not post the review. Please try again later.';
+    } else {
+      revLast = Date.now();
+      document.getElementById('revName').value = '';
+      document.getElementById('revText').value = '';
+      revRating = 0;
+      Array.prototype.forEach.call(document.getElementById('revRate').children, function(x){ x.classList.remove('on'); });
+      msg.style.color = 'var(--green)';
+      msg.textContent = 'Thank you. Your review will appear once it is checked.';
+    }
+  } catch(e){
+    msg.style.color = 'var(--red)';
+    msg.textContent = 'Could not reach the server. Check your connection.';
+  }
+  btn.disabled = false;
+}
+
 /* ---------- RAZORPAY ---------- */
 const PAY_BASE = 'https://eqwmsjsqrhgyfpyssfop.supabase.co/functions/v1';
 
@@ -889,6 +1043,12 @@ async function buy(plan){
 paintLicence();
 
 buildScamQs();
+
+if (document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', loadReviews);
+} else {
+  loadReviews();
+}
 </script>
 <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 </body>
