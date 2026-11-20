@@ -881,7 +881,7 @@ async function loadReviews(){
   if (!grid) return;
   let rows = [];
   try {
-    const r = await fetch(SUPA_REST + '/reviews?select=name,rating,comment,created_at&approved=eq.true&order=created_at.desc&limit=24', {
+    const r = await fetch(SUPA_REST + '/site_reviews?select=name,rating,comment,created_at&site=eq.careershield&approved=eq.true&order=created_at.desc&limit=24', {
       headers: { 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY }
     });
     if (r.ok) rows = await r.json();
@@ -930,7 +930,7 @@ async function sendReview(){
   msg.textContent = 'Posting…';
 
   try {
-    const r = await fetch(SUPA_REST + '/reviews', {
+    const r = await fetch(SUPA_REST + '/site_reviews', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -938,7 +938,7 @@ async function sendReview(){
         'Authorization': 'Bearer ' + AI_KEY,
         'Prefer': 'return=minimal'
       },
-      body: JSON.stringify({ name: name.slice(0, 40), rating: revRating, comment: text.slice(0, 600) })
+      body: JSON.stringify({ site: 'careershield', name: name.slice(0, 40), rating: revRating, comment: text.slice(0, 600) })
     });
     if (!r.ok){
       msg.style.color = 'var(--red)';
