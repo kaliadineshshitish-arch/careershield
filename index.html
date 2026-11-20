@@ -769,6 +769,42 @@ function quotaLeft(){
   return Math.max(0, FREE_PER_DAY - getQuota().used);
 }
 
+
+function activateKey(raw){
+  const clean = String(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (!keyValid(clean)) return false;
+  const tierChar = clean[2];
+  const calls = tierChar === 'P' ? 'unlimited' : tierChar === 'S' ? 120 : 30;
+  setLicence({ key: clean, tier: tierChar, calls, expires: Date.now() + 365*24*60*60*1000 });
+  return true;
+}
+function copyKey(el){
+  const k = el.getAttribute('data-key') || '';
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(k).then(function(){ el.textContent = 'Copied'; },
+      function(){ el.textContent = 'Copy'; });
+  } else { el.textContent = k; }
+}
+
+/* Claims the licence key for a paid Razorpay payment. Retries because
+   capture can lag a second or two behind the checkout callback. */
+async function claimKey(paymentId, plan){
+  for (let i = 0; i < 4; i++){
+    try {
+      const res = await fetch(PAY_BASE + '/bright-task', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY },
+        body: JSON.stringify({ action: 'claim', payment_id: paymentId, plan: plan })
+      });
+      const d = await res.json();
+      if (res.ok && d.key) return d;
+      if (res.status === 400 || res.status === 404) return null;
+    } catch(e){}
+    await new Promise(function(r){ setTimeout(r, 1500); });
+  }
+  return null;
+}
+
 /* ---------- RAZORPAY ---------- */
 const PAY_BASE = 'https://eqwmsjsqrhgyfpyssfop.supabase.co/functions/v1';
 
@@ -781,7 +817,7 @@ async function buy(plan){
     const res = await fetch(PAY_BASE + '/bright-task', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY },
-      body: JSON.stringify({ plan: plan, site: 'careershield' })
+      body: JSON.stringify({ action: 'order', plan: plan, site: 'careershield' })
     });
     data = await res.json();
     if (!res.ok){
@@ -812,12 +848,32 @@ async function buy(plan){
     name: 'CareerShield',
     description: label + ' — one time, no auto-renew',
     theme: { color: '#22c55e' },
-    handler: function (r){
+    handler: async function (r){
       if (out){
+        out.innerHTML = '<p style="color:var(--muted)">Payment received. Creating your license key…</p>';
+        out.classList.add('show');
+      }
+      const d = await claimKey(r.razorpay_payment_id, plan);
+      if (d && d.key && activateKey(d.key)){
+        if (out){
+          out.innerHTML = '<div class="risk risk-low"><div class="score">OK</div><div>'
+            + '<div style="font-weight:800">You are all set — ' + esc(d.label) + '</div>'
+            + '<div class="lbl" style="margin:6px 0 8px">This key is already active on this browser. '
+            + 'Save it so you can use it on another device:</div>'
+            + '<div style="font-family:monospace;font-size:16px;font-weight:800;letter-spacing:.5px;'
+            + 'background:#0b1220;color:#86efac;border-radius:8px;padding:10px 12px;text-align:center">'
+            + esc(d.key) + '</div>'
+            + '<button class="btn" style="margin-top:8px" data-key="' + esc(d.key) + '" '
+            + 'onclick="copyKey(this)">Copy key</button>'
+            + '</div></div>';
+          out.classList.add('show');
+        }
+      } else if (out){
         out.innerHTML = '<div class="risk risk-low"><div class="score">OK</div><div>'
           + '<div style="font-weight:800">Payment received</div>'
           + '<div class="lbl">Reference ' + esc(r.razorpay_payment_id) + '. '
-          + 'Your license key is being emailed to you. It usually takes under a minute.</div></div></div>';
+          + 'We could not create your key automatically. Email '
+          + 'creatormarket.support@gmail.com with this reference and we will send it within a few hours.</div></div></div>';
         out.classList.add('show');
       }
     },
