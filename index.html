@@ -152,6 +152,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <a href="#fresher">Fresher</a>
     <a href="#versions">Versions</a>
     <a href="#nointerview">No Interview</a>
+    <a href="#plan">Plan</a>
+    <a href="#linkedin">LinkedIn</a>
+    <a href="#tracker">Tracker</a>
     <a href="#pricing">Pricing</a>
   </div>
 </div></nav>
@@ -181,6 +184,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="card"><div class="ico">🎓</div><h3>Fresher Resume Expert</h3><p>No experience yet? Build a one-page fresher resume from your degree, college projects and skills — with clear [ADD: …] slots instead of invented internships.</p></div>
     <div class="card"><div class="ico">🗂️</div><h3>Multiple Job Resume Versions</h3><p>Tailor your resume for each job and keep the versions saved in your browser. Apply to five roles with five honest versions, not one generic one.</p></div>
     <div class="card"><div class="ico">📉</div><h3>Why No Interview Analysis</h3><p>Sent 80 applications and no calls? Get the three most likely reasons, each pointing at a real line in your resume — and what to fix this week.</p></div>
+    <div class="card"><div class="ico">🗓️</div><h3>Career Improvement Plan</h3><p>A 30/60/90 day plan for your target role, built around the hours you actually have. Free practice and projects first, paid courses last.</p></div>
+    <div class="card"><div class="ico">💼</div><h3>LinkedIn Optimizer</h3><p>Three headlines, a real About section and rewritten experience bullets — using only what is already true about your work.</p></div>
+    <div class="card"><div class="ico">📋</div><h3>Job Application Tracker</h3><p>Log every application, see which channel actually calls back, and export the file whenever you want. Stays in your browser, no login.</p></div>
   </div>
 </section>
 
@@ -404,6 +410,101 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
 </section>
 
+<!-- ============ CAREER PLAN ============ -->
+<section class="wrap" id="plan">
+  <div class="tool">
+    <h2>🗓️ Career Improvement Plan</h2>
+    <p class="lead">You already know something is not working. This is what to do in the next 90 days, in the hours you actually have.</p>
+    <label>Role you are aiming for</label>
+    <input type="text" id="plTarget" maxlength="120" placeholder="Example: Data Analyst">
+    <label>Your current role (optional)</label>
+    <input type="text" id="plCurrent" maxlength="120" placeholder="Example: Customer support executive">
+    <label>Experience so far (optional)</label>
+    <textarea id="plExp" maxlength="1500" placeholder="Example: 2 years in support, handle tickets and a weekly Excel report."></textarea>
+    <label>Skills you already have (optional)</label>
+    <textarea id="plSkills" maxlength="1500" placeholder="Example: Advanced Excel, written English, basic SQL"></textarea>
+    <label>Time you can give per week</label>
+    <input type="text" id="plHours" maxlength="60" placeholder="Example: 6 hours a week">
+    <label>City (optional)</label>
+    <input type="text" id="plCity" maxlength="80" placeholder="Example: Pune">
+    <label>Language</label>
+    <select id="plLang">
+      <option value="english">English</option>
+      <option value="hinglish">Hinglish</option>
+      <option value="hindi">Hindi</option>
+    </select>
+    <div style="margin-top:18px"><button class="btn btn-primary" onclick="runPlan()">Build my 90-day plan</button></div>
+    <div class="out" id="plOut"></div>
+    <p class="note">No guaranteed job, no invented course links. Free practice and a project come before any paid course.</p>
+  </div>
+</section>
+
+<!-- ============ LINKEDIN OPTIMIZER ============ -->
+<section class="wrap" id="linkedin">
+  <div class="tool">
+    <h2>💼 LinkedIn Optimizer</h2>
+    <p class="lead">Recruiters search LinkedIn before they read your resume. Paste what you have, get headlines and an About that read like a person.</p>
+    <label>Role you are targeting</label>
+    <input type="text" id="liTarget" maxlength="120" placeholder="Example: Data Analyst">
+    <label>Current headline (optional)</label>
+    <input type="text" id="liHeadline" maxlength="220" placeholder="Example: Support Executive at XYZ Pvt Ltd">
+    <label>Current About section (optional)</label>
+    <textarea id="liAbout" maxlength="3000" placeholder="Paste your About section…"></textarea>
+    <label>Your experience in plain words</label>
+    <textarea id="liExp" maxlength="3000" placeholder="Example: 2 years handling customer tickets, built a weekly Excel report, trained 2 new joiners."></textarea>
+    <label>Skills (optional)</label>
+    <textarea id="liSkills" maxlength="800" placeholder="Example: Excel, Tally, SQL basics, written English"></textarea>
+    <div style="margin-top:18px"><button class="btn btn-primary" onclick="runLinkedIn()">Optimise my profile</button></div>
+    <div class="out" id="liOut"></div>
+    <p class="note">We never add an employer, metric or skill you did not mention. If your experience is thin, the profile will be honest rather than padded.</p>
+  </div>
+</section>
+
+<!-- ============ JOB APPLICATION TRACKER ============ -->
+<section class="wrap" id="tracker">
+  <div class="tool">
+    <h2>📋 Job Application Tracker</h2>
+    <p class="lead">Eighty applications and no idea which ones called back? Log them here. No login, no server — this browser only.</p>
+    <div class="grid grid-2" style="gap:12px">
+      <div>
+        <label>Company</label>
+        <input type="text" id="tkCompany" maxlength="80" placeholder="Example: Zoho">
+      </div>
+      <div>
+        <label>Role</label>
+        <input type="text" id="tkRole" maxlength="80" placeholder="Example: Data Analyst">
+      </div>
+      <div>
+        <label>Where you applied</label>
+        <select id="tkChannel">
+          <option value="Naukri">Naukri</option>
+          <option value="LinkedIn">LinkedIn</option>
+          <option value="Referral">Referral</option>
+          <option value="Company site">Company site</option>
+          <option value="Walk-in">Walk-in</option>
+          <option value="Consultancy">Consultancy</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div>
+        <label>Date applied</label>
+        <input type="date" id="tkDate">
+      </div>
+    </div>
+    <div style="margin-top:16px"><button class="btn btn-primary" onclick="trackerAdd()">Add application</button></div>
+    <div class="out" id="tkOut"></div>
+    <div id="tkStats" style="margin-top:18px"></div>
+    <div id="tkList" style="margin-top:12px"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px">
+      <button class="btn btn-ghost btn-sm" onclick="trackerExport()">Export file</button>
+      <button class="btn btn-ghost btn-sm" onclick="document.getElementById('tkFile').click()">Import file</button>
+      <button class="btn btn-ghost btn-sm" onclick="trackerToNoInterview()">Use these numbers in No-Interview analysis</button>
+      <input type="file" id="tkFile" accept="application/json,.json" style="display:none" onchange="trackerImport(this)">
+    </div>
+    <p class="note">Saved only in this browser. Export the file before clearing site data or switching phones — that file is the backup.</p>
+  </div>
+</section>
+
 <!-- ============ COVER LETTER ============ -->
 <section class="wrap" id="cover">
   <div class="tool">
@@ -445,7 +546,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <div style="font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px">Free forever</div>
         <div style="font-size:1.9rem;font-weight:800;letter-spacing:-.03em">&#8377;0</div>
         <ul class="flags" style="margin-top:14px">
-          <li class="ok">All 12 tools, no signup</li>
+          <li class="ok">All 15 tools, no signup</li>
           <li class="ok">3 AI calls per day</li>
           <li class="ok">PDF export</li>
           <li class="ok">Nothing stored on our side</li>
@@ -895,6 +996,259 @@ async function runNoInterview(){
   showPdfBar('nointerview');
 }
 
+/* ---------- CAREER IMPROVEMENT PLAN ---------- */
+async function runPlan(){
+  const target = document.getElementById('plTarget').value.trim();
+  const out = document.getElementById('plOut');
+  if (!target){ out.innerHTML = '<p style="color:#ef4444">Which role are you aiming for?</p>'; out.classList.add('show'); return; }
+
+  const txt = await aiText({
+    mode: 'career-plan', site: 'careershield',
+    targetRole: target,
+    currentRole: document.getElementById('plCurrent').value.trim(),
+    experience: document.getElementById('plExp').value.trim(),
+    skills: document.getElementById('plSkills').value.trim(),
+    hours: document.getElementById('plHours').value.trim(),
+    city: document.getElementById('plCity').value.trim(),
+    lang: document.getElementById('plLang').value
+  }, 'plOut', 'Building your 90-day plan…');
+
+  if (txt === null) return;
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + esc(txt) + '</div>';
+  out.classList.add('show');
+  showPdfBar('plan');
+}
+
+/* ---------- LINKEDIN OPTIMIZER ---------- */
+async function runLinkedIn(){
+  const target = document.getElementById('liTarget').value.trim();
+  const exp = document.getElementById('liExp').value.trim();
+  const out = document.getElementById('liOut');
+  if (!target || !exp){ out.innerHTML = '<p style="color:#ef4444">The target role and your experience are both needed.</p>'; out.classList.add('show'); return; }
+
+  const txt = await aiText({
+    mode: 'linkedin-optimize', site: 'careershield',
+    targetRole: target,
+    headline: document.getElementById('liHeadline').value.trim(),
+    about: document.getElementById('liAbout').value.trim(),
+    experience: exp,
+    skills: document.getElementById('liSkills').value.trim()
+  }, 'liOut', 'Rewriting your profile…');
+
+  if (txt === null) return;
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + esc(txt) + '</div>';
+  out.classList.add('show');
+  showPdfBar('linkedin');
+}
+
+/* ---------- JOB APPLICATION TRACKER (browser only, no AI, no server) ---------- */
+const APPS_KEY = 'cs_apps_v1';
+const APPS_MAX = 500;
+const TK_STATUS = ['Applied', 'No response', 'Callback', 'Interview', 'Offer', 'Rejected'];
+
+function getApps(){
+  try {
+    const v = JSON.parse(localStorage.getItem(APPS_KEY) || '[]');
+    return Array.isArray(v) ? v : [];
+  } catch(e){ return []; }
+}
+function setApps(list){
+  try { localStorage.setItem(APPS_KEY, JSON.stringify(list.slice(0, APPS_MAX))); } catch(e){}
+  trackerRender();
+}
+function tkMsg(html, colour){
+  const out = document.getElementById('tkOut');
+  if (!out) return;
+  out.innerHTML = '<p style="color:' + (colour || '#86efac') + '">' + html + '</p>';
+  out.classList.add('show');
+}
+
+function trackerAdd(){
+  const company = document.getElementById('tkCompany').value.trim();
+  const role = document.getElementById('tkRole').value.trim();
+  const channel = document.getElementById('tkChannel').value;
+  const date = document.getElementById('tkDate').value || new Date().toISOString().slice(0, 10);
+  if (!company){ tkMsg('Company name is needed.', '#ef4444'); return; }
+
+  const list = getApps();
+  if (list.length >= APPS_MAX){
+    tkMsg('That is ' + APPS_MAX + ' applications — export the file and start a fresh list.', '#f59e0b');
+    return;
+  }
+  list.unshift({
+    id: String(Date.now()),
+    company: company.slice(0, 80),
+    role: role.slice(0, 80),
+    channel: channel,
+    date: date,
+    status: 'Applied'
+  });
+  setApps(list);
+  document.getElementById('tkCompany').value = '';
+  document.getElementById('tkRole').value = '';
+  tkMsg('Added. ' + list.length + ' application' + (list.length === 1 ? '' : 's') + ' logged.');
+}
+
+function trackerSetStatus(id, status){
+  const list = getApps();
+  for (let i = 0; i < list.length; i++) if (list[i].id === id) list[i].status = status;
+  setApps(list);
+}
+
+function trackerDelete(id){
+  setApps(getApps().filter(function(x){ return x.id !== id; }));
+  tkMsg('Entry removed.', '#f59e0b');
+}
+
+function trackerStats(){
+  const list = getApps();
+  const total = list.length;
+  const replied = list.filter(function(x){ return x.status !== 'Applied' && x.status !== 'No response'; });
+  const interviews = list.filter(function(x){ return x.status === 'Interview' || x.status === 'Offer'; });
+  const offers = list.filter(function(x){ return x.status === 'Offer'; });
+
+  const byChannel = {};
+  list.forEach(function(x){
+    const c = x.channel || 'Other';
+    if (!byChannel[c]) byChannel[c] = { applied: 0, replied: 0 };
+    byChannel[c].applied++;
+    if (x.status !== 'Applied' && x.status !== 'No response') byChannel[c].replied++;
+  });
+
+  let months = 1;
+  const dates = list.map(function(x){ return new Date(x.date).getTime(); }).filter(function(t){ return !isNaN(t); });
+  if (dates.length){
+    const days = Math.max(1, Math.round((Date.now() - Math.min.apply(null, dates)) / 86400000));
+    months = Math.max(1, Math.round(days / 30));
+  }
+
+  return { list: list, total: total, replied: replied.length, interviews: interviews.length,
+           offers: offers.length, byChannel: byChannel, months: months };
+}
+
+function trackerRender(){
+  const statsEl = document.getElementById('tkStats');
+  const listEl = document.getElementById('tkList');
+  if (!statsEl || !listEl) return;
+
+  const s = trackerStats();
+
+  if (!s.total){
+    statsEl.innerHTML = '<p style="color:var(--faint);font-size:.8rem">No applications logged yet. Add the first one above.</p>';
+    listEl.innerHTML = '';
+    return;
+  }
+
+  const rate = Math.round(s.replied / s.total * 100);
+  const cells = [
+    ['Logged', s.total],
+    ['Replied', s.replied],
+    ['Interviews', s.interviews],
+    ['Offers', s.offers],
+    ['Response rate', rate + '%']
+  ];
+  statsEl.innerHTML = '<div style="display:flex;gap:10px;flex-wrap:wrap">'
+    + cells.map(function(c){
+        return '<div style="flex:1;min-width:88px;background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:10px 12px">'
+          + '<div style="font-size:1.25rem;font-weight:800">' + esc(String(c[1])) + '</div>'
+          + '<div style="font-size:.72rem;color:var(--faint);text-transform:uppercase;letter-spacing:.1em">' + esc(c[0]) + '</div></div>';
+      }).join('') + '</div>';
+
+  const chans = Object.keys(s.byChannel).sort(function(a, b){ return s.byChannel[b].applied - s.byChannel[a].applied; });
+  if (chans.length > 1){
+    statsEl.innerHTML += '<div style="margin-top:10px;font-size:.8rem;color:var(--muted)">By channel: '
+      + chans.map(function(c){
+          const v = s.byChannel[c];
+          return esc(c) + ' — ' + v.applied + ' sent, ' + v.replied + ' replied';
+        }).join(' · ')
+      + '</div>';
+  }
+
+  listEl.innerHTML = s.list.map(function(x){
+    const opts = TK_STATUS.map(function(st){
+      return '<option value="' + esc(st) + '"' + (st === x.status ? ' selected' : '') + '>' + esc(st) + '</option>';
+    }).join('');
+    return '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin-bottom:8px">'
+      + '<div style="flex:1;min-width:140px">'
+        + '<div style="font-size:.88rem;font-weight:600">' + esc(x.company) + (x.role ? ' — ' + esc(x.role) : '') + '</div>'
+        + '<div style="font-size:.74rem;color:var(--faint)">' + esc(x.channel) + ' · ' + esc(x.date) + '</div>'
+      + '</div>'
+      + '<select onchange="trackerSetStatus(\'' + esc(x.id) + '\', this.value)" style="max-width:150px;padding:8px 10px;font-size:.8rem">' + opts + '</select>'
+      + '<button class="btn btn-ghost btn-sm" onclick="trackerDelete(\'' + esc(x.id) + '\')">Delete</button>'
+      + '</div>';
+  }).join('');
+}
+
+function trackerExport(){
+  const s = trackerStats();
+  if (!s.total){ tkMsg('Nothing to export yet.', '#f59e0b'); return; }
+  const payload = {
+    app: 'CareerShield',
+    kind: 'job-applications',
+    exported_at: new Date().toISOString(),
+    count: s.total,
+    applications: s.list
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'careershield-applications-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+  tkMsg('Exported ' + s.total + ' applications. Keep that file safe — it is your backup.');
+}
+
+function trackerImport(input){
+  const f = input.files && input.files[0];
+  if (!f) return;
+  if (f.size > 2 * 1024 * 1024){ tkMsg('That file is over 2 MB — not a CareerShield export.', '#ef4444'); input.value = ''; return; }
+
+  const reader = new FileReader();
+  reader.onload = function(){
+    let data = null;
+    try { data = JSON.parse(String(reader.result || '')); } catch(e){ data = null; }
+    const rows = data && Array.isArray(data.applications) ? data.applications : (Array.isArray(data) ? data : null);
+    if (!rows){ tkMsg('That file does not look like a CareerShield export.', '#ef4444'); input.value = ''; return; }
+
+    const existing = getApps();
+    const seen = {};
+    existing.forEach(function(x){ seen[x.id] = true; });
+    let added = 0;
+    rows.forEach(function(r){
+      if (!r || typeof r !== 'object' || !r.company) return;
+      const id = String(r.id || Date.now() + '-' + added);
+      if (seen[id]) return;
+      seen[id] = true;
+      existing.unshift({
+        id: id,
+        company: String(r.company).slice(0, 80),
+        role: String(r.role || '').slice(0, 80),
+        channel: String(r.channel || 'Other').slice(0, 40),
+        date: /^\d{4}-\d{2}-\d{2}$/.test(String(r.date || '')) ? r.date : new Date().toISOString().slice(0, 10),
+        status: TK_STATUS.indexOf(r.status) > -1 ? r.status : 'Applied'
+      });
+      added++;
+    });
+    setApps(existing);
+    tkMsg(added ? 'Imported ' + added + ' application' + (added === 1 ? '' : 's') + '.' : 'Nothing new in that file.', added ? '#86efac' : '#f59e0b');
+    input.value = '';
+  };
+  reader.onerror = function(){ tkMsg('Could not read that file.', '#ef4444'); input.value = ''; };
+  reader.readAsText(f);
+}
+
+function trackerToNoInterview(){
+  const s = trackerStats();
+  if (!s.total){ tkMsg('Log at least one application first.', '#f59e0b'); return; }
+  const chans = Object.keys(s.byChannel).sort(function(a, b){ return s.byChannel[b].applied - s.byChannel[a].applied; });
+  document.getElementById('niApps').value = String(s.total);
+  document.getElementById('niMonths').value = String(s.months);
+  document.getElementById('niChannels').value = chans.join(', ');
+  document.getElementById('nointerview').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  tkMsg('Filled your numbers into the No-Interview analysis below.', '#86efac');
+}
+
 /* ---------- SECURITY: single escape helper ---------- */
 function esc(s){
   return String(s == null ? '' : s)
@@ -1094,11 +1448,41 @@ function buildPrintSheet(sectionId){
   const title = h2 ? h2.textContent.replace(/[^\x20-\x7E]/g, '').trim() : 'Report';
   const today = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
+  // Everything below prints on white paper, so the screen's CSS variables are
+  // swapped for light-theme colours before the sheet is written.
+  const wrap = document.createElement('div');
+  if (sectionId === 'tracker'){
+    const statsEl = document.getElementById('tkStats');
+    const listEl = document.getElementById('tkList');
+    wrap.innerHTML = (statsEl ? statsEl.innerHTML : '') + (listEl ? listEl.innerHTML : '');
+    Array.prototype.forEach.call(wrap.querySelectorAll('select'), function(sel){
+      const span = document.createElement('span');
+      span.textContent = sel.selectedIndex > -1 ? sel.options[sel.selectedIndex].text : '';
+      span.setAttribute('style', 'font-size:9.5pt;color:#43536e');
+      if (sel.parentNode) sel.parentNode.replaceChild(span, sel);
+    });
+    Array.prototype.forEach.call(wrap.querySelectorAll('button'), function(btn){ btn.remove(); });
+  } else {
+    wrap.innerHTML = out ? out.innerHTML : '';
+  }
+
+  const LIGHT = {
+    '--bg2': '#f5f7fa', '--line': '#d7dee9', '--faint': '#43536e', '--muted': '#43536e',
+    '--ink': '#0b1220', '--green': '#166534', '--red': '#991b1b', '--amber': '#92400e'
+  };
+  Array.prototype.forEach.call(wrap.querySelectorAll('[style]'), function(el){
+    let st = el.getAttribute('style') || '';
+    if (st.indexOf('var(') === -1) return;
+    Object.keys(LIGHT).forEach(function(v){ st = st.split('var(' + v + ')').join(LIGHT[v]); });
+    el.setAttribute('style', st);
+  });
+  const bodyHtml = wrap.innerHTML;
+
   sheet.innerHTML =
     '<div class="ps-head"><div class="ps-brand">CareerShield</div>'
       + '<div class="ps-date">' + esc(today) + '</div></div>'
     + '<h1 class="ps-title">' + esc(title) + '</h1>'
-    + '<div class="ps-body">' + (out ? out.innerHTML : '') + '</div>'
+    + '<div class="ps-body">' + bodyHtml + '</div>'
     + (note ? '<div class="ps-note">' + esc(note.textContent.trim()) + '</div>' : '')
     + '<div class="ps-foot">careershield.vercel.app'
       + (licenceValid() ? '' : ' · Free version')
@@ -1492,6 +1876,12 @@ paintLicence();
 buildScamQs();
 
 renderVersions();
+
+(function initTracker(){
+  const d = document.getElementById('tkDate');
+  if (d && !d.value) d.value = new Date().toISOString().slice(0, 10);
+  trackerRender();
+})();
 
 if (document.readyState === 'loading'){
   document.addEventListener('DOMContentLoaded', loadReviews);

@@ -15,7 +15,10 @@ Free tools for Indian job seekers. No signup, no card, no data stored.
 10. **Fresher Resume Expert** — one-page fresher skeleton with [ADD:] slots (mode: `fresher-resume`)
 11. **Multiple Job Resume Versions** — per-job tailoring + versions saved in localStorage (mode: `resume-tailor`)
 12. **Why No Interview Analysis** — diagnosis from resume + application numbers (mode: `no-interview`)
-13. **PDF export** — print the current report
+13. **Career Improvement Plan** — 30/60/90 day plan (mode: `career-plan`)
+14. **LinkedIn Optimizer** — headlines, About, bullets (mode: `linkedin-optimize`)
+15. **Job Application Tracker** — client-side only: localStorage, JSON export/import, channel stats, hands its numbers to the no-interview tool
+16. **PDF export** — A4 report with brand, date, tool name and the honesty note
 
 All AI modes are served by the shared Supabase edge function `ai-tools`
 (project `eqwmsjsqrhgyfpyssfop`), which calls Sarvam AI.
@@ -49,5 +52,7 @@ function. Nothing is written to a database.
 - [x] Fresher Resume Expert
 - [x] Multiple Job Resume Versions (localStorage)
 - [x] Why No Interview Analysis
-- [ ] Career Improvement Plan
-- [ ] AI Interview Coach, LinkedIn Optimizer, Job Application Tracker
+- [x] Career Improvement Plan
+- [x] LinkedIn Optimizer
+- [x] Job Application Tracker (localStorage + JSON export)
+- [ ] AI Interview Coach (needs a step-by-step Q&A UI, not a chat)
