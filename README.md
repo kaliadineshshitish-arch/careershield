@@ -44,6 +44,16 @@ per-IP limit stays as the ceiling on abuse.
 - `privacy.html` — the privacy page at `/privacy`
 - `vendor/` — self-hosted pdf.js
 
+## Analytics
+Vercel Web Analytics is enabled on the project. A plain HTML site is not
+instrumented automatically, so `index.html` and `privacy.html` load
+`/_vercel/insights/script.js` themselves, and `app.js` fires the events:
+`tool_scam`, `tool_ats`, `tool_match`, `tool_pdf_reality`, `tool_tracker_add`,
+`tool_coach_start`, `ai_call` (with the mode), `paywall_shown`,
+`paywall_pack_empty`, `licence_activated`, `buy_click`, `pdf_export`.
+The whole site is one page, so without these events the dashboard would only
+ever show `/`.
+
 ## Privacy
 The client-side checks (scam, ATS, match, PDF parsing) run entirely in the
 browser. AI tools send only the text the user pastes to the `ai-tools`
