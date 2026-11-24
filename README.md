@@ -1,6 +1,6 @@
 # CareerShield
 
-Free tools for Indian job seekers. No signup, no card, no data stored.
+Free checks for Indian job seekers, AI tools on a one-time pack. No signup, no card, no data stored.
 
 ## Tools
 1. **Job Offer Red Flag Check** — 7-question scam pattern checker (flagship)
@@ -30,8 +30,10 @@ Abuse controls on the server (not just the browser):
   refuses an unknown, expired or exhausted key with 402 (`cs_licence_use`)
 - `careershield-pay` stores the licence on claim and answers `action: "verify"`
 
-The free tier (3 AI calls/day) is enforced in the browser for politeness; the
-per-IP limit is the real ceiling on cost.
+There is **no free AI tier**: every AI tool requires a licence pack, because each
+call costs real money at Sarvam. The free tools (scam check, ATS, job match,
+PDF reality check, application tracker, PDF export) need no key at all. The
+per-IP limit stays as the ceiling on abuse.
 
 ## Privacy
 The client-side checks (scam, ATS, match, PDF parsing) run entirely in the

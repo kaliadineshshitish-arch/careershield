@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Free AI Resume Checker & Job Scam Checker India</title>
-<meta name="description" content="Free AI resume checker for India. See how ATS reads your resume, check a job offer for scam red flags, and fix weak bullet points. No signup, nothing stored.">
+<meta name="description" content="Free resume and job-scam checks for India, AI tools from ₹49. See how ATS reads your resume, check a job offer for scam red flags, and fix weak bullet points. No signup, nothing stored.">
 <meta name="theme-color" content="#0b1220">
 <meta property="og:title" content="CareerShield — check the job, fix the resume">
 <meta property="og:description" content="India's job scam check + AI resume repair. Free, no signup, nothing stored.">
@@ -96,6 +96,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .hidden{display:none!important}
 
 #printSheet{display:none}
+.aichip{display:inline-block;vertical-align:middle;margin-left:8px;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;background:#1c2a44;color:#93b4e6;border:1px solid #2c3f60;border-radius:999px;padding:3px 8px;font-weight:700}
+.paywall{background:#151f33;border:1px solid #2c3f60;border-radius:12px;padding:14px 16px;margin-top:4px}
+.paywall p{color:#e8eefc}
+.freechip{display:inline-block;vertical-align:middle;margin-left:8px;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;background:#0f2419;color:#86efac;border:1px solid #1c3b2c;border-radius:999px;padding:3px 8px;font-weight:700}
 @media print{
   @page{size:A4;margin:14mm}
   html,body{background:#fff!important;color:#0b1220!important}
@@ -160,7 +164,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </div></nav>
 
 <header class="wrap">
-  <div class="eyebrow">Free for job seekers — no signup, no card</div>
+  <div class="eyebrow">Checks are free · AI tools from ₹49 · no signup</div>
   <h1>Check the job. Fix the resume.<br><span class="grad">Don't get cheated.</span></h1>
   <p class="sub">Indian job seekers lost crores to fake offers last year. CareerShield checks a job offer for scam red flags and tells you exactly what is wrong with your resume — before you hit apply.</p>
   <div class="cta">
@@ -193,7 +197,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ SCAM CHECK ============ -->
 <section class="wrap" id="scam">
   <div class="tool">
-    <h2>🚨 Job Offer Red Flag Check</h2>
+    <h2>🚨 Job Offer Red Flag Check <span class="freechip">Free</span></h2>
     <p class="lead">Answer honestly. This is a warning-sign checker, not a verdict.</p>
     <div id="scamQs"></div>
     <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
@@ -208,7 +212,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ REALITY CHECK ============ -->
 <section class="wrap" id="reality">
   <div class="tool">
-    <h2>🔍 Resume Reality Check</h2>
+    <h2>🔍 Resume Reality Check <span class="freechip">Free</span></h2>
     <p class="lead">Upload your resume PDF. We read it the way parsing software does and show you what it finds — and what it misses.</p>
     <label>Your resume (PDF, under 2 MB)</label>
     <input type="file" id="pdfFile" accept="application/pdf" onchange="readPdf()" style="padding:10px;background:var(--bg2);border:1px solid var(--line);border-radius:11px;width:100%;color:var(--ink);font-size:.86rem">
@@ -221,7 +225,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ ATS ============ -->
 <section class="wrap" id="ats">
   <div class="tool">
-    <h2>📄 ATS Reality Check</h2>
+    <h2>📄 ATS Reality Check <span class="freechip">Free</span></h2>
     <p class="lead">Paste your resume and the job description. We compare the words — the way screening software does.</p>
     <label>Your resume text</label>
     <textarea id="atsResume" maxlength="20000" placeholder="Paste your full resume here…"></textarea>
@@ -236,7 +240,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ MATCH ============ -->
 <section class="wrap" id="match">
   <div class="tool">
-    <h2>🎯 Job Match Score</h2>
+    <h2>🎯 Job Match Score <span class="freechip">Free</span></h2>
     <p class="lead">Same engine, section by section. See exactly where you are strong and where you are missing.</p>
     <label>Your resume text</label>
     <textarea id="matchResume" maxlength="20000" placeholder="Paste your resume…"></textarea>
@@ -250,7 +254,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ REPAIR ============ -->
 <section class="wrap" id="repair">
   <div class="tool">
-    <h2>🔧 Resume Repair</h2>
+    <h2>🔧 Resume Repair <span class="aichip">AI · needs a pack</span></h2>
     <p class="lead">Paste one weak bullet point. Get a stronger version that stays true to what you actually did.</p>
     <label>Your bullet point</label>
     <textarea id="repairIn" maxlength="1200" placeholder="Example: Responsible for handling customer queries and managing the team's reports."></textarea>
@@ -266,7 +270,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ ACHIEVEMENT WRITER ============ -->
 <section class="wrap" id="achievement">
   <div class="tool">
-    <h2>🏆 AI Achievement Writer</h2>
+    <h2>🏆 AI Achievement Writer <span class="aichip">AI · needs a pack</span></h2>
     <p class="lead">Write what you actually did, in plain words. Get three achievement lines you can defend in an interview.</p>
     <label>What you did</label>
     <textarea id="achDuty" maxlength="2000" placeholder="Example: Used to check customer complaints, forward them to the right team, and make a weekly Excel report for the manager."></textarea>
@@ -289,7 +293,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ HINDI <-> ENGLISH ============ -->
 <section class="wrap" id="translate">
   <div class="tool">
-    <h2>🔁 Hindi ⇄ English Converter</h2>
+    <h2>🔁 Hindi ⇄ English Converter <span class="aichip">AI · needs a pack</span></h2>
     <p class="lead">A resume line, an email or a WhatsApp message — convert it without losing the meaning or the formatting.</p>
     <label>Text to convert</label>
     <textarea id="trText" maxlength="6000" placeholder="Paste a resume line, email or message…"></textarea>
@@ -315,7 +319,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ CAREER GAP ============ -->
 <section class="wrap" id="gap">
   <div class="tool">
-    <h2>⏸️ Career Gap Assistant</h2>
+    <h2>⏸️ Career Gap Assistant <span class="aichip">AI · needs a pack</span></h2>
     <p class="lead">Tell us the gap and the real reason. You will get a resume line, an interview answer, and what to show instead of an excuse.</p>
     <label>How long was the gap?</label>
     <input type="text" id="gapLen" maxlength="60" placeholder="Example: 14 months, from Aug 2024 to Oct 2025">
@@ -342,7 +346,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ FRESHER RESUME ============ -->
 <section class="wrap" id="fresher">
   <div class="tool">
-    <h2>🎓 Fresher Resume Expert</h2>
+    <h2>🎓 Fresher Resume Expert <span class="aichip">AI · needs a pack</span></h2>
     <p class="lead">Freshers do not need fake experience. They need projects, skills and a structure recruiters can scan in 20 seconds.</p>
     <label>Degree</label>
     <input type="text" id="frDegree" maxlength="120" placeholder="Example: B.Com (Computer Applications)">
@@ -369,7 +373,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ MULTIPLE VERSIONS ============ -->
 <section class="wrap" id="versions">
   <div class="tool">
-    <h2>🗂️ Multiple Job Resume Versions</h2>
+    <h2>🗂️ Multiple Job Resume Versions <span class="aichip">AI · needs a pack</span></h2>
     <p class="lead">One resume for every job is why the calls stop. Tailor it per job, then save the version here — it stays in this browser.</p>
     <label>Your resume text</label>
     <textarea id="vResume" maxlength="8000" placeholder="Paste your current resume…"></textarea>
@@ -390,7 +394,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ WHY NO INTERVIEW ============ -->
 <section class="wrap" id="nointerview">
   <div class="tool">
-    <h2>📉 Why No Interview Analysis</h2>
+    <h2>📉 Why No Interview Analysis <span class="aichip">AI · needs a pack</span></h2>
     <p class="lead">Applications going out but the phone is not ringing? Here is the honest diagnosis, based on your resume and your numbers.</p>
     <label>Your resume text</label>
     <textarea id="niResume" maxlength="8000" placeholder="Paste your resume…"></textarea>
@@ -413,7 +417,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ CAREER PLAN ============ -->
 <section class="wrap" id="plan">
   <div class="tool">
-    <h2>🗓️ Career Improvement Plan</h2>
+    <h2>🗓️ Career Improvement Plan <span class="aichip">AI · needs a pack</span></h2>
     <p class="lead">You already know something is not working. This is what to do in the next 90 days, in the hours you actually have.</p>
     <label>Role you are aiming for</label>
     <input type="text" id="plTarget" maxlength="120" placeholder="Example: Data Analyst">
@@ -442,7 +446,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ LINKEDIN OPTIMIZER ============ -->
 <section class="wrap" id="linkedin">
   <div class="tool">
-    <h2>💼 LinkedIn Optimizer</h2>
+    <h2>💼 LinkedIn Optimizer <span class="aichip">AI · needs a pack</span></h2>
     <p class="lead">Recruiters search LinkedIn before they read your resume. Paste what you have, get headlines and an About that read like a person.</p>
     <label>Role you are targeting</label>
     <input type="text" id="liTarget" maxlength="120" placeholder="Example: Data Analyst">
@@ -463,7 +467,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ JOB APPLICATION TRACKER ============ -->
 <section class="wrap" id="tracker">
   <div class="tool">
-    <h2>📋 Job Application Tracker</h2>
+    <h2>📋 Job Application Tracker <span class="freechip">Free</span></h2>
     <p class="lead">Eighty applications and no idea which ones called back? Log them here. No login, no server — this browser only.</p>
     <div class="grid grid-2" style="gap:12px">
       <div>
@@ -508,7 +512,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 <!-- ============ COVER LETTER ============ -->
 <section class="wrap" id="cover">
   <div class="tool">
-    <h2>✉️ Cover Letter</h2>
+    <h2>✉️ Cover Letter <span class="aichip">AI · needs a pack</span></h2>
     <p class="lead">One letter, written for this specific job. No template filler.</p>
     <label>Job title</label>
     <input type="text" id="clRole" placeholder="Example: Junior Data Analyst">
@@ -546,10 +550,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <div style="font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px">Free forever</div>
         <div style="font-size:1.9rem;font-weight:800;letter-spacing:-.03em">&#8377;0</div>
         <ul class="flags" style="margin-top:14px">
-          <li class="ok">All 15 tools, no signup</li>
-          <li class="ok">3 AI calls per day</li>
-          <li class="ok">PDF export</li>
-          <li class="ok">Nothing stored on our side</li>
+          <li class="ok">Scam check, unlimited</li>
+          <li class="ok">ATS check, job match, PDF reality check</li>
+          <li class="ok">Application tracker + PDF export</li>
+          <li class="ok">No signup, nothing stored</li>
+          <li class="ok" style="color:#8fa2c4">AI tools start at &#8377;49</li>
         </ul>
       </div>
 
@@ -1285,11 +1290,27 @@ async function callAI(payload){
 const AI_MIN_GAP_MS = 8000;
 let lastAiAt = 0;
 
+function paywallHtml(hasKey){
+  if (hasKey){
+    return '<div class="paywall"><p style="font-weight:700;margin-bottom:6px">Your pack is finished.</p>'
+      + '<p style="color:var(--muted);font-size:.86rem;margin-bottom:10px">Get another pack to keep using the AI tools. The checks and the tracker stay free.</p>'
+      + '<a class="btn btn-primary btn-sm" href="#pricing">See packs</a></div>';
+  }
+  return '<div class="paywall">'
+    + '<p style="font-weight:700;margin-bottom:6px">This tool runs on AI credits.</p>'
+    + '<p style="color:var(--muted);font-size:.86rem;margin-bottom:10px">Scam check, ATS check, job match, PDF reality check and the application tracker are free forever. '
+    + 'The AI tools need a pack: ₹49 for 30 calls, one time, no subscription, no auto-renew.</p>'
+    + '<div style="display:flex;gap:10px;flex-wrap:wrap">'
+    + '<a class="btn btn-primary btn-sm" href="#pricing">See packs</a>'
+    + '<a class="btn btn-ghost btn-sm" href="#pricing">I already have a key</a>'
+    + '</div></div>';
+}
+
 async function aiText(payload, outEl, busyLabel){
   const out = document.getElementById(outEl);
-  if (quotaLeft() <= 0){
-    out.innerHTML = '<p style="color:#f59e0b">You have used your free AI calls for today. '
-      + 'Come back tomorrow, or <a href="#pricing" style="color:#22c55e">get a pack</a> for more.</p>';
+  // Every AI tool costs real money per call, so nothing AI runs without a pack.
+  if (!licenceValid() || quotaLeft() <= 0){
+    out.innerHTML = paywallHtml(licenceValid());
     out.classList.add('show');
     return null;
   }
@@ -1577,9 +1598,9 @@ async function applyLicence(){
   out.classList.add('show');
 }
 
-/* ---------- FREE QUOTA (3 AI calls per day) ---------- */
+/* ---------- AI QUOTA: no free AI calls, a pack is required ---------- */
 const QUOTA_KEY = 'cs_quota_v1';
-const FREE_PER_DAY = 3;
+const FREE_PER_DAY = 0;
 
 function todayStr(){ return new Date().toISOString().slice(0, 10); }
 function getQuota(){
