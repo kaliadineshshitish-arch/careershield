@@ -33,6 +33,7 @@ function resetScam(){
   document.getElementById('scamOut').classList.remove('show');
 }
 function checkScam(){
+  track('tool_scam');
   const answered = Object.keys(picks).length;
   if (answered < 4){ alert('Please answer at least 4 questions.'); return; }
   let score = 0, flags = [];
@@ -121,8 +122,8 @@ function renderAnalysis(outId, res){
   out.classList.add('show');
   showPdfBar(outId === 'atsOut' ? 'ats' : 'match');
 }
-function runAts(){ renderAnalysis('atsOut', analyse(document.getElementById('atsResume').value, document.getElementById('atsJD').value)); }
-function runMatch(){ renderAnalysis('matchOut', analyse(document.getElementById('matchResume').value, document.getElementById('matchJD').value)); }
+function runAts(){ track('tool_ats'); renderAnalysis('atsOut', analyse(document.getElementById('atsResume').value, document.getElementById('atsJD').value)); }
+function runMatch(){ track('tool_match'); renderAnalysis('matchOut', analyse(document.getElementById('matchResume').value, document.getElementById('matchJD').value)); }
 
 /* ---------- REPAIR (client-side rewrite scaffold; AI call wired later) ---------- */
 async function runRepair(){
@@ -431,6 +432,7 @@ function tkMsg(html, colour){
 }
 
 function trackerAdd(){
+  track('tool_tracker_add');
   const company = document.getElementById('tkCompany').value.trim();
   const role = document.getElementById('tkRole').value.trim();
   const channel = document.getElementById('tkChannel').value;
@@ -643,6 +645,7 @@ function coachReset(){
 }
 
 async function coachStart(){
+  track('tool_coach_start');
   const role = document.getElementById('coachRole').value.trim();
   const out = document.getElementById('coachOut');
   if (!role){
@@ -708,6 +711,12 @@ async function coachAnswer(){
   document.getElementById('coachRun').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+/* ---------- ANALYTICS (Vercel Web Analytics; no-op until it is enabled) ---------- */
+window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+function track(name, data){
+  try { window.va('event', Object.assign({ name: name }, data || {})); } catch(e){}
+}
+
 /* ---------- SECURITY: single escape helper ---------- */
 function esc(s){
   return String(s == null ? '' : s)
@@ -745,6 +754,7 @@ const AI_MIN_GAP_MS = 1500;   // paid calls only now, so no long wait between st
 let lastAiAt = 0;
 
 function paywallHtml(hasKey){
+  track(hasKey ? 'paywall_pack_empty' : 'paywall_shown');
   if (hasKey){
     return '<div class="paywall"><p style="font-weight:700;margin-bottom:6px">Your pack is finished.</p>'
       + '<p style="color:var(--muted);font-size:.86rem;margin-bottom:10px">Get another pack to keep using the AI tools. The checks and the tracker stay free.</p>'
@@ -797,6 +807,7 @@ async function aiText(payload, outEl, busyLabel){
       return null;
     }
     bumpQuota();
+    track('ai_call', { mode: String(payload.mode || '') });
 
     // Keep the local count in step with the server's.
     if (lic && licenceValid() && r.data && r.data.remaining !== undefined){
@@ -854,6 +865,7 @@ async function readPdf(){
 }
 
 function runReality(){
+  track('tool_pdf_reality');
   const out = document.getElementById('realityOut');
   const raw = pdfText;
   if (!raw || raw.trim().length < 50){
@@ -966,6 +978,7 @@ function buildPrintSheet(sectionId){
 }
 
 function savePdf(){
+  track('pdf_export');
   const title = buildPrintSheet(lastSection);
   if (!title) return;
 
@@ -1109,6 +1122,7 @@ async function activateKey(raw){
   if (!v.ok && v.reason === 'unknown') return false;
 
   if (v.ok){
+    track('licence_activated');
     setLicence({
       key: clean,
       tier: v.data.tier || v.data.plan,
@@ -1268,6 +1282,7 @@ async function sendReview(){
 const PAY_BASE = 'https://eqwmsjsqrhgyfpyssfop.supabase.co/functions/v1';
 
 async function buy(plan){
+  track('buy_click', { plan: String(plan || '') });
   const out = document.getElementById('licOut');
   if (out){ out.innerHTML = '<p style="color:var(--muted)">Opening secure checkout…</p>'; out.classList.add('show'); }
 
