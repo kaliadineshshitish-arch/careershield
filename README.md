@@ -18,7 +18,9 @@ Free checks for Indian job seekers, AI tools on a one-time pack. No signup, no c
 13. **Career Improvement Plan** — 30/60/90 day plan (mode: `career-plan`)
 14. **LinkedIn Optimizer** — headlines, About, bullets (mode: `linkedin-optimize`)
 15. **Job Application Tracker** — client-side only: localStorage, JSON export/import, channel stats, hands its numbers to the no-interview tool
-16. **PDF export** — A4 report with brand, date, tool name and the honesty note
+16. **AI Interview Coach** — 5 questions, one at a time, scored feedback (mode: `interview-coach`)
+17. **PDF export** — A4 report with brand, date, tool name and the honesty note
+18. **Privacy page** — `/privacy`: what is stored, what goes to Sarvam, how to delete it
 
 All AI modes are served by the shared Supabase edge function `ai-tools`
 (project `eqwmsjsqrhgyfpyssfop`), which calls Sarvam AI.
@@ -57,4 +59,4 @@ function. Nothing is written to a database.
 - [x] Career Improvement Plan
 - [x] LinkedIn Optimizer
 - [x] Job Application Tracker (localStorage + JSON export)
-- [ ] AI Interview Coach (needs a step-by-step Q&A UI, not a chat)
+- [x] AI Interview Coach (5-step Q&A, not a chat)

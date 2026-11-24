@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Privacy — CareerShield</title>
+<meta name="description" content="What CareerShield stores, what it sends to the AI provider, and how to delete your data.">
+<meta name="theme-color" content="#0b1220">
+<link rel="canonical" href="https://careershield.vercel.app/privacy">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+<style>
+:root{--bg:#0b1220;--bg2:#111a2c;--card:#151f33;--line:#243352;--ink:#e8eefc;--muted:#8fa2c4;--faint:#5f7398;--green:#22c55e}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:'Segoe UI',system-ui,-apple-system,sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+nav{position:sticky;top:0;background:rgba(11,18,32,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;text-decoration:none;color:var(--ink)}
+.brand .dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--green),#0ea5e9);display:grid;place-items:center;font-size:15px}
+nav a.back{color:var(--muted);text-decoration:none;font-size:.85rem}
+h1{font-size:1.9rem;letter-spacing:-.02em;margin:34px 0 6px}
+.updated{color:var(--faint);font-size:.85rem;margin-bottom:26px}
+h2{font-size:1.05rem;margin:26px 0 8px}
+p,li{color:#cdd8ee;font-size:.95rem}
+ul{margin:8px 0 8px 20px}
+li{margin-bottom:6px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:16px 0}
+code{background:#0b1220;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:.85rem;color:#93b4e6}
+a{color:#818cf8}
+footer{border-top:1px solid var(--line);margin-top:34px;padding:18px 0 40px;color:var(--faint);font-size:.85rem}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="brand" href="/"><span class="dot">🛡️</span> CareerShield</a>
+  <a class="back" href="/">← Back to the tools</a>
+</div></nav>
+
+<main class="wrap">
+  <h1>Privacy</h1>
+  <p class="updated">Last updated: 24 November 2026 · CareerShield is a DK Digital Studio product</p>
+
+  <div class="card">
+    <p><strong>The short version:</strong> the checks and the tracker run inside your browser and nothing is stored on our side. The AI tools send only the text you paste to our AI provider so it can answer, and we do not keep it. Payments are handled by Razorpay — we never see your card or UPI details.</p>
+  </div>
+
+  <h2>What stays on your device</h2>
+  <ul>
+    <li><strong>Resume PDFs</strong> — read in your browser with pdf.js. The file is never uploaded.</li>
+    <li><strong>Scam check answers, ATS text, job match text</strong> — used in the page and then gone. Nothing is sent anywhere.</li>
+    <li><strong>Saved resume versions</strong> — stored in this browser as <code>cs_versions_v1</code>.</li>
+    <li><strong>Job application tracker</strong> — stored in this browser as <code>cs_apps_v1</code>. Use “Export file” to keep a backup.</li>
+    <li><strong>Licence key and AI call count</strong> — <code>cs_licence_v1</code> and <code>cs_quota_v1</code>, so you do not have to paste the key again.</li>
+  </ul>
+  <p>Clearing your browser's site data deletes all of the above. Nothing can be recovered from our side, because we never had it.</p>
+
+  <h2>What leaves your device</h2>
+  <ul>
+    <li><strong>AI tools:</strong> the text you type into an AI tool (resume text, job description, career-gap reason, answers) is sent to our server function and from there to <strong>Sarvam AI</strong>, an Indian AI provider, which generates the reply. We do not store that text in a database and we do not log it. Sarvam processes it to produce the answer under its own terms.</li>
+    <li><strong>Your IP address</strong> is used for rate limiting (to stop abuse of the AI credits) and is kept in a counter table for up to two days.</li>
+    <li><strong>Payments:</strong> Razorpay processes the payment. We receive a payment reference, the plan and the amount — never your card, UPI ID or bank details.</li>
+    <li><strong>Licence records:</strong> we store a one-way hash of your licence key, the plan, how many AI calls were used and the expiry date. The key itself cannot be read back from the hash.</li>
+    <li><strong>Reviews:</strong> if you post a review, your first name, star rating and comment are stored and published after we check them. Do not write anything personal in a review.</li>
+  </ul>
+
+  <h2>What we do not do</h2>
+  <ul>
+    <li>No account, no email signup, no password.</li>
+    <li>No advertising trackers, no third-party analytics scripts, no cross-site pixels.</li>
+    <li>No selling or sharing of data with anyone other than the providers listed above, who only process it to deliver the service.</li>
+  </ul>
+
+  <h2>Your choices</h2>
+  <ul>
+    <li><strong>Delete local data:</strong> clear site data in your browser, or delete entries inside the tracker.</li>
+    <li><strong>Ask us to erase a review or a licence record:</strong> email us from the address below with the reference; we will delete it.</li>
+    <li><strong>Ask what we hold about you:</strong> email us and we will tell you, usually within a few days.</li>
+  </ul>
+  <p>Under India's Digital Personal Data Protection Act, 2023 you can ask for access, correction or erasure of your personal data. Write to us and we will act on it.</p>
+
+  <h2>Children</h2>
+  <p>CareerShield is meant for people 18 and over who are looking for work. We do not knowingly collect data from children.</p>
+
+  <h2>Contact</h2>
+  <p>Email: <a href="mailto:creatormarket.support@gmail.com">creatormarket.support@gmail.com</a><br>
+  We are a small studio; a real person reads this inbox.</p>
+
+  <h2>Changes</h2>
+  <p>If this page changes in a way that affects what we collect, we will update the date at the top and note it on the site.</p>
+
+  <footer>CareerShield — a DK Digital Studio product · <a href="/">careershield.vercel.app</a></footer>
+</main>
+</body>
+</html>

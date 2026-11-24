@@ -159,6 +159,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <a href="#plan">Plan</a>
     <a href="#linkedin">LinkedIn</a>
     <a href="#tracker">Tracker</a>
+    <a href="#coach">Interview Coach</a>
     <a href="#pricing">Pricing</a>
   </div>
 </div></nav>
@@ -190,6 +191,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="card"><div class="ico">📉</div><h3>Why No Interview Analysis</h3><p>Sent 80 applications and no calls? Get the three most likely reasons, each pointing at a real line in your resume — and what to fix this week.</p></div>
     <div class="card"><div class="ico">🗓️</div><h3>Career Improvement Plan</h3><p>A 30/60/90 day plan for your target role, built around the hours you actually have. Free practice and projects first, paid courses last.</p></div>
     <div class="card"><div class="ico">💼</div><h3>LinkedIn Optimizer</h3><p>Three headlines, a real About section and rewritten experience bullets — using only what is already true about your work.</p></div>
+    <div class="card"><div class="ico">🎤</div><h3>AI Interview Coach</h3><p>Five real interview questions for your role, one at a time. Answer, get scored feedback on what you actually said, then face the next one.</p></div>
     <div class="card"><div class="ico">📋</div><h3>Job Application Tracker</h3><p>Log every application, see which channel actually calls back, and export the file whenever you want. Stays in your browser, no login.</p></div>
   </div>
 </section>
@@ -509,6 +511,42 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   </div>
 </section>
 
+<!-- ============ INTERVIEW COACH ============ -->
+<section class="wrap" id="coach">
+  <div class="tool">
+    <h2>🎤 AI Interview Coach <span class="aichip">AI · needs a pack</span></h2>
+    <p class="lead">Five real interview questions for your role, one at a time. Answer the way you would speak, get feedback on that answer, then move to the next.</p>
+
+    <div id="coachSetup">
+      <label>Role you are interviewing for</label>
+      <input type="text" id="coachRole" maxlength="120" placeholder="Example: Data Analyst">
+      <label>Level</label>
+      <select id="coachLevel">
+        <option value="fresher">Fresher</option>
+        <option value="1-3 years">1-3 years</option>
+        <option value="3+ years">3+ years</option>
+      </select>
+      <label>Job description (optional)</label>
+      <textarea id="coachJd" maxlength="8000" placeholder="Paste the posting here to make the questions specific…"></textarea>
+      <div style="margin-top:18px"><button class="btn btn-primary" onclick="coachStart()">Start mock interview</button></div>
+    </div>
+
+    <div id="coachRun" style="display:none">
+      <div class="note" id="coachStep" style="margin-bottom:10px"></div>
+      <div id="coachQ" style="font-size:1.05rem;font-weight:700;line-height:1.55;margin-bottom:14px"></div>
+      <label>Your answer</label>
+      <textarea id="coachA" maxlength="3000" placeholder="Type it the way you would say it in the room…"></textarea>
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="coachAnswer()">Send answer</button>
+        <button class="btn btn-ghost btn-sm" onclick="coachReset()">Stop</button>
+      </div>
+    </div>
+
+    <div class="out" id="coachOut"></div>
+    <p class="note">A five-question round uses six AI calls from your pack. Feedback is on what you actually said — we do not hand you a fake answer to memorise.</p>
+  </div>
+</section>
+
 <!-- ============ COVER LETTER ============ -->
 <section class="wrap" id="cover">
   <div class="tool">
@@ -629,7 +667,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <footer><div class="wrap">
   <div>CareerShield — a DK Digital Studio product</div>
-  <div>Free · No signup · Nothing stored</div>
+  <div>Free checks · No signup · Nothing stored · <a href="/privacy" style="color:#818cf8">Privacy</a></div>
 </div>
 <div class="wrap" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">
   <div>Creator? Try <a href="https://creatormarket-nu.vercel.app" target="_blank" rel="noopener" style="color:#818cf8;font-weight:600">CreatorMarket</a> — 12 free AI tools for Indian creators</div>
@@ -1254,6 +1292,98 @@ function trackerToNoInterview(){
   tkMsg('Filled your numbers into the No-Interview analysis below.', '#86efac');
 }
 
+/* ---------- AI INTERVIEW COACH (one question at a time) ---------- */
+const COACH_TOTAL = 5;
+let coachState = null;
+
+function coachPick(txt, label){
+  const m = String(txt || '').match(new RegExp('^' + label + '\\s*:\\s*(.+)$', 'im'));
+  return m ? m[1].trim() : '';
+}
+
+function coachShowQuestion(){
+  document.getElementById('coachSetup').style.display = 'none';
+  document.getElementById('coachRun').style.display = 'block';
+  document.getElementById('coachStep').textContent = 'Question ' + coachState.index + ' of ' + COACH_TOTAL;
+  document.getElementById('coachQ').textContent = coachState.question;
+  document.getElementById('coachA').value = '';
+  document.getElementById('coachA').focus();
+}
+
+function coachReset(){
+  coachState = null;
+  const run = document.getElementById('coachRun');
+  const setup = document.getElementById('coachSetup');
+  if (run) run.style.display = 'none';
+  if (setup) setup.style.display = 'block';
+}
+
+async function coachStart(){
+  const role = document.getElementById('coachRole').value.trim();
+  const out = document.getElementById('coachOut');
+  if (!role){
+    out.innerHTML = '<p style="color:#ef4444">Which role are you interviewing for?</p>';
+    out.classList.add('show');
+    return;
+  }
+
+  coachState = {
+    role: role,
+    level: document.getElementById('coachLevel').value,
+    jd: document.getElementById('coachJd').value.trim(),
+    index: 0,
+    question: ''
+  };
+
+  const txt = await aiText({
+    mode: 'interview-coach', site: 'careershield',
+    role: coachState.role, level: coachState.level, jd: coachState.jd, index: 0
+  }, 'coachOut', 'Preparing your first question…');
+
+  if (txt === null){ coachState = null; return; }
+
+  const q = coachPick(txt, 'QUESTION') || txt.trim();
+  coachState.question = q;
+  coachState.index = 1;
+  out.innerHTML = '<p style="color:var(--muted);font-size:.85rem">Mock round started. Answer each question, and the next one comes after the feedback.</p>';
+  out.classList.add('show');
+  coachShowQuestion();
+}
+
+async function coachAnswer(){
+  const answer = document.getElementById('coachA').value.trim();
+  const out = document.getElementById('coachOut');
+  if (!coachState) return;
+  if (!answer){
+    out.innerHTML = '<p style="color:#ef4444">Write your answer first.</p>';
+    out.classList.add('show');
+    return;
+  }
+
+  const st = coachState;
+  const txt = await aiText({
+    mode: 'interview-coach', site: 'careershield',
+    role: st.role, level: st.level, index: st.index, question: st.question, answer: answer
+  }, 'coachOut', 'Reading your answer…');
+
+  if (txt === null) return;
+
+  const nextQ = coachPick(txt, 'NEXT QUESTION');
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + esc(txt) + '</div>';
+  out.classList.add('show');
+
+  if (st.index >= COACH_TOTAL || !nextQ){
+    coachReset();
+    showPdfBar('coach');
+    return;
+  }
+
+  st.index += 1;
+  st.question = nextQ;
+  coachShowQuestion();
+  document.getElementById('coachRun').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
 /* ---------- SECURITY: single escape helper ---------- */
 function esc(s){
   return String(s == null ? '' : s)
@@ -1287,7 +1417,7 @@ async function callAI(payload){
   return { ok: res.ok, status: res.status, data };
 }
 
-const AI_MIN_GAP_MS = 8000;
+const AI_MIN_GAP_MS = 1500;   // paid calls only now, so no long wait between steps
 let lastAiAt = 0;
 
 function paywallHtml(hasKey){
