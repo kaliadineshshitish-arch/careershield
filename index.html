@@ -7,7 +7,7 @@
 <meta name="description" content="Free AI resume checker for India. See how ATS reads your resume, check a job offer for scam red flags, and fix weak bullet points. No signup, nothing stored.">
 <meta name="theme-color" content="#0b1220">
 <meta property="og:title" content="CareerShield — check the job, fix the resume">
-<meta property="og:description" content="India's job scam check + resume health report. Free, no signup, data stays on your device.">
+<meta property="og:description" content="India's job scam check + AI resume repair. Free, no signup, nothing stored.">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
 <style>
@@ -157,9 +157,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <a href="#ats">ATS Check</a>
     <a href="#match">Job Match</a>
     <a href="#reality">Reality</a>
-    <a href="#cover">Cover Letter</a>
-    <a href="#pricing">Pricing</a>
     <a href="#repair">Repair</a>
+    <a href="#achievement">Achievement</a>
+    <a href="#cover">Cover Letter</a>
+    <a href="#translate">Hindi ⇄ English</a>
+    <a href="#pricing">Pricing</a>
   </div>
 </div></nav>
 
@@ -171,7 +173,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <a class="btn btn-primary" href="#scam">Check a job offer →</a>
     <a class="btn btn-ghost" href="#ats">Check my resume</a>
   </div>
-  <p class="note" style="margin-top:22px">Everything runs in your browser. Your resume never leaves your device.</p>
+  <p class="note" style="margin-top:22px">The checks run in your browser. The AI tools send only the text you paste to our AI provider, and we store nothing.</p>
 </header>
 
 <section class="wrap">
@@ -182,6 +184,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="card"><div class="ico">🔍</div><h3>Resume Reality Check</h3><p>Upload your PDF. See exactly what a screening system can and cannot read — your name, contact, headings, dates, and whether tables break it.</p></div>
     <div class="card"><div class="ico">✉️</div><h3>Cover Letter</h3><p>A letter written for this specific job and this specific company. Never a template with the names swapped.</p></div>
     <div class="card"><div class="ico">🔧</div><h3>Resume Repair</h3><p>Turn plain responsibilities into achievement lines that are true. No invented numbers, no fake experience.</p></div>
+    <div class="card"><div class="ico">🏆</div><h3>AI Achievement Writer</h3><p>Type the duty in plain words. Get three achievement lines built only from what you actually did and the numbers you can defend.</p></div>
+    <div class="card"><div class="ico">🔁</div><h3>Hindi ⇄ English Converter</h3><p>Convert a resume line, email or message between English, Hindi and Hinglish. Tools and job titles stay in English.</p></div>
   </div>
 </section>
 
@@ -258,6 +262,49 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </section>
 
 
+<!-- ============ ACHIEVEMENT WRITER ============ -->
+<section class="wrap" id="achievement">
+  <div class="tool">
+    <h2>🏆 AI Achievement Writer</h2>
+    <p class="lead">Write what you actually did, in plain words. Get three achievement lines you can defend in an interview.</p>
+    <label>What you did</label>
+    <textarea id="achDuty" maxlength="2000" placeholder="Example: Used to check customer complaints, forward them to the right team, and make a weekly Excel report for the manager."></textarea>
+    <label>Your role (optional)</label>
+    <input type="text" id="achRole" placeholder="Example: Customer support executive, 1 year">
+    <label>Real numbers you can defend (optional)</label>
+    <input type="text" id="achNums" placeholder="Example: 40-50 tickets a day, 6-member team, 2 reports a week">
+    <label>Language</label>
+    <select id="achLang">
+      <option value="english">English</option>
+      <option value="hinglish">Hinglish</option>
+      <option value="hindi">Hindi</option>
+    </select>
+    <div style="margin-top:18px"><button class="btn btn-primary" onclick="runAchieve()">Write achievement lines</button></div>
+    <div class="out" id="achOut"></div>
+    <p class="note">We use only the numbers you type. If a metric would make the line stronger, we ask you for it instead of inventing one.</p>
+  </div>
+</section>
+
+<!-- ============ HINDI <-> ENGLISH ============ -->
+<section class="wrap" id="translate">
+  <div class="tool">
+    <h2>🔁 Hindi ⇄ English Converter</h2>
+    <p class="lead">A resume line, an email or a WhatsApp message — convert it without losing the meaning or the formatting.</p>
+    <label>Text to convert</label>
+    <textarea id="trText" maxlength="6000" placeholder="Paste a resume line, email or message…"></textarea>
+    <label>Convert</label>
+    <select id="trDir">
+      <option value="en-hi">English → Hindi</option>
+      <option value="en-hinglish">English → Hinglish</option>
+      <option value="hi-en">Hindi → English</option>
+      <option value="hi-hinglish">Hindi → Hinglish</option>
+    </select>
+    <div style="margin-top:18px"><button class="btn btn-primary" onclick="runTranslate()">Convert</button></div>
+    <div class="out" id="trOut"></div>
+    <p class="note">Job titles, company names and tools like Excel, Tally and SQL stay in English — the way Indian recruiters expect them.</p>
+  </div>
+</section>
+
 <div class="pdfbar" id="pdfbar" style="display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:80;background:#151f33;border:1px solid #243352;border-radius:14px;padding:10px 14px;box-shadow:0 10px 30px rgba(0,0,0,.45);display:none;align-items:center;gap:10px">
   <span style="font-size:.78rem;color:#8fa2c4">Save this report</span>
   <button class="btn btn-primary btn-sm" onclick="savePdf()">Download PDF</button>
@@ -305,10 +352,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <div style="font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px">Free forever</div>
         <div style="font-size:1.9rem;font-weight:800;letter-spacing:-.03em">&#8377;0</div>
         <ul class="flags" style="margin-top:14px">
-          <li class="ok">All 6 tools, no signup</li>
+          <li class="ok">All 8 tools, no signup</li>
           <li class="ok">3 AI calls per day</li>
           <li class="ok">PDF export</li>
-          <li class="ok">Data stays on your device</li>
+          <li class="ok">Nothing stored on our side</li>
         </ul>
       </div>
 
@@ -383,7 +430,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 <footer><div class="wrap">
   <div>CareerShield — a DK Digital Studio product</div>
-  <div>Free · No signup · Data stays on your device</div>
+  <div>Free · No signup · Nothing stored</div>
 </div>
 <div class="wrap" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">
   <div>Creator? Try <a href="https://creatormarket-nu.vercel.app" target="_blank" rel="noopener" style="color:#818cf8;font-weight:600">CreatorMarket</a> — 12 free AI tools for Indian creators</div>
@@ -529,7 +576,7 @@ async function runRepair(){
   }, 'repairOut', 'Rewriting your bullet point…');
 
   if (txt === null){
-    out.innerHTML = `<p style="color:var(--muted)">AI is not connected yet. The rules we will apply:</p>
+    out.innerHTML += `<p style="color:var(--muted);margin-top:10px">Meanwhile, these are the rules we apply:</p>
     <ul class="flags" style="margin-top:10px">
       <li class="ok">Start with a strong verb: led, built, delivered, reduced, improved, launched.</li>
       <li class="ok">Say what changed, not what you were "responsible for".</li>
@@ -564,6 +611,44 @@ async function runCover(){
   showPdfBar('cover');
 }
 
+
+/* ---------- AI ACHIEVEMENT WRITER ---------- */
+async function runAchieve(){
+  const duty = document.getElementById('achDuty').value.trim();
+  const role = document.getElementById('achRole').value.trim();
+  const numbers = document.getElementById('achNums').value.trim();
+  const lang = document.getElementById('achLang').value;
+  const out = document.getElementById('achOut');
+  if (!duty){ out.innerHTML = '<p style="color:#ef4444">Write what you did first.</p>'; out.classList.add('show'); return; }
+
+  const txt = await aiText({
+    mode: 'achievement', site: 'careershield', lang: lang,
+    duty: duty, role: role, numbers: numbers
+  }, 'achOut', 'Turning this into achievement lines…');
+
+  if (txt === null) return;
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + esc(txt) + '</div>';
+  out.classList.add('show');
+  showPdfBar('achievement');
+}
+
+/* ---------- HINDI <-> ENGLISH CONVERTER ---------- */
+async function runTranslate(){
+  const text = document.getElementById('trText').value.trim();
+  const direction = document.getElementById('trDir').value;
+  const out = document.getElementById('trOut');
+  if (!text){ out.innerHTML = '<p style="color:#ef4444">Paste the text to convert.</p>'; out.classList.add('show'); return; }
+
+  const txt = await aiText({
+    mode: 'career-translate', site: 'careershield',
+    text: text, direction: direction
+  }, 'trOut', 'Converting…');
+
+  if (txt === null) return;
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + esc(txt) + '</div>';
+  out.classList.add('show');
+  showPdfBar('translate');
+}
 
 /* ---------- SECURITY: single escape helper ---------- */
 function esc(s){
