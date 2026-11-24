@@ -30,6 +30,7 @@ nav .wrap{display:flex;align-items:center;justify-content:space-between;height:6
 .navlinks{display:flex;gap:18px;font-size:.82rem;color:var(--muted);white-space:nowrap;min-width:0;overflow-x:auto;scrollbar-width:none}
 .navlinks::-webkit-scrollbar{display:none}
 @media(max-width:1180px){.navlinks{gap:12px;font-size:.76rem}}
+section[id]{scroll-margin-top:74px}
 .navlinks a{text-decoration:none;padding:4px 0}
 .navlinks a:hover{color:var(--ink)}
 @media(max-width:820px){.navlinks{display:none}}
@@ -94,46 +95,30 @@ footer{border-top:1px solid var(--line);padding:34px 0;margin-top:40px;color:var
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .hidden{display:none!important}
 
+#printSheet{display:none}
 @media print{
-  :root{--bg:#fff;--bg2:#f5f7fa;--card:#fff;--line:#d7dee9;--ink:#0b1220;--muted:#43536e;--faint:#66748c}
-  body{background:#fff;color:#0b1220}
-  nav,header,.grid,footer,.btn,.switch,.cta,.note,.lead,.eyebrow,
-  input[type=file],textarea,label,#scamQs,.badge{display:none!important}
-  .wrap{max-width:100%;padding:0}
-  section{padding:0;display:none}
-  section.printme{display:block!important}
-  .tool{border:none;background:#fff;padding:0;margin:0}
-  .tool h2{font-size:1.2rem;margin-bottom:12px}
-  .out{display:block!important;background:#fff;border:none;padding:0;white-space:normal}
-  .risk{border:1px solid #d7dee9!important;background:#f5f7fa!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  ul.flags li{border-bottom:1px solid #e4e9f1}
-  .pdfbar{display:none!important}
-  @page{margin:14mm}
+  @page{size:A4;margin:14mm}
+  html,body{background:#fff!important;color:#0b1220!important}
+  body>*{display:none!important}
+  #printSheet{display:block!important;color:#0b1220;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;font-size:11pt;line-height:1.5}
+  #printSheet .ps-head{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #0b1220;padding-bottom:6px;margin-bottom:16px}
+  #printSheet .ps-brand{font-weight:800;font-size:13pt;letter-spacing:-.01em}
+  #printSheet .ps-date{font-size:9.5pt;color:#43536e}
+  #printSheet .ps-title{font-size:16pt;font-weight:800;margin:0 0 14px;color:#0b1220}
+  #printSheet .ps-body{white-space:pre-wrap}
+  #printSheet .ps-body p{margin:0 0 8px}
+  #printSheet .ps-note{margin-top:18px;padding-top:8px;border-top:1px solid #d7dee9;font-size:9pt;color:#43536e}
+  #printSheet .ps-foot{margin-top:10px;font-size:9pt;color:#66748c}
+  #printSheet .risk{border:1px solid #d7dee9!important;background:#f5f7fa!important;color:#0b1220!important;padding:10px 12px;border-radius:8px;margin-bottom:10px;page-break-inside:avoid;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  #printSheet .risk .score{font-size:13pt;font-weight:800;color:#0b1220!important}
+  #printSheet .lbl{color:#43536e!important;font-size:9.5pt}
+  #printSheet .flags{margin:6px 0 0;padding:0}
+  #printSheet .flags li{list-style:none;border-bottom:1px solid #e4e9f1;padding:5px 0;page-break-inside:avoid}
+  #printSheet .flags li.ok{color:#166534!important}
+  #printSheet .flags li.bad,#printSheet .flags li.gap{color:#991b1b!important}
+  #printSheet h3,#printSheet h4{color:#0b1220!important;margin:10px 0 6px}
+  #printSheet a{color:#0b1220!important;text-decoration:none}
 }
-
-
-/* ---------- REVIEWS ---------- */
-.rev-wrap{margin-top:18px}
-.rev-stats{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px}
-.rev-avg{font-size:2rem;font-weight:900;line-height:1}
-.rev-stars{color:#f59e0b;font-size:1rem;letter-spacing:2px}
-.rev-count{color:var(--muted);font-size:.82rem}
-.rev-grid{display:grid;gap:12px}
-.rev-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-.rev-card .who{font-weight:800;font-size:.9rem;display:flex;justify-content:space-between;align-items:center;gap:10px}
-.rev-card .when{font-weight:500;color:var(--faint);font-size:.72rem}
-.rev-card .stars{color:#f59e0b;font-size:.85rem;letter-spacing:1.5px;margin:5px 0 7px}
-.rev-card p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.5}
-.rev-empty{background:var(--card);border:1px dashed var(--line);border-radius:12px;padding:22px;text-align:center;color:var(--muted);font-size:.9rem}
-.rev-form{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:16px}
-.rev-form h3{margin:0 0 4px;font-size:.98rem}
-.rev-form .hint{color:var(--faint);font-size:.78rem;margin:0 0 12px}
-.rev-rate{display:flex;gap:6px;margin-bottom:12px}
-.rev-rate button{background:none;border:0;font-size:1.6rem;line-height:1;color:#334765;cursor:pointer;padding:0 2px;transition:color .12s}
-.rev-rate button.on{color:#f59e0b}
-.rev-form input,.rev-form textarea{width:100%;background:var(--bg2);border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:10px 12px;font:inherit;font-size:.9rem;margin-bottom:10px}
-.rev-form textarea{min-height:82px;resize:vertical}
-.rev-msg{font-size:.85rem;margin-top:10px}
 </style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
@@ -966,13 +951,30 @@ async function aiText(payload, outEl, busyLabel){
   out.innerHTML = '<p style="color:var(--muted)">' + busyLabel + '</p>';
   out.classList.add('show');
   try {
-    const r = await callAI(payload);
+    // A licence key travels with the request: the server checks it and counts the call.
+    const req = Object.assign({}, payload);
+    const lic = getLicence();
+    if (lic && lic.key && licenceValid()) req.licence = lic.key;
+
+    const r = await callAI(req);
     if (!r.ok){
-      out.innerHTML = '<p style="color:#f59e0b">This AI tool is not switched on yet on the server. '
-        + (r.data && r.data.message ? r.data.message : 'Server returned ' + r.status + '.') + '</p>';
+      const msg = (r.data && r.data.message) ? String(r.data.message) : '';
+      if (r.status === 402 || r.status === 429){
+        out.innerHTML = '<p style="color:#f59e0b">' + esc(msg || 'The AI service is busy. Please try again shortly.') + '</p>';
+        return null;
+      }
+      out.innerHTML = '<p style="color:#f59e0b">The AI service is not available right now. '
+        + esc(msg || ('Server returned ' + r.status + '.')) + '</p>';
       return null;
     }
     bumpQuota();
+
+    // Keep the local count in step with the server's.
+    if (lic && licenceValid() && r.data && r.data.remaining !== undefined){
+      const next = Object.assign({}, lic);
+      next.left = (r.data.remaining === null) ? null : Number(r.data.remaining);
+      setLicence(next);
+    }
     return r.data.content || '';
   } catch(e){
     out.innerHTML = '<p style="color:#ef4444">Could not reach the AI service. Check your connection and try again.</p>';
@@ -1079,18 +1081,47 @@ function showPdfBar(sectionId){
   bar.style.display = 'flex';
   document.body.style.paddingBottom = '84px';
 }
-function savePdf(){
-  document.querySelectorAll('section').forEach(s => s.classList.remove('printme'));
-  const sec = document.getElementById(lastSection);
-  if (sec) sec.classList.add('printme');
-  window.print();
-  setTimeout(() => {
-    document.querySelectorAll('section').forEach(s => s.classList.remove('printme'));
-  }, 500);
+/* Builds a clean A4 sheet: brand line, tool name, date, the report itself,
+   the honesty note, and a footer that only the free version carries. */
+function buildPrintSheet(sectionId){
+  const sec = document.getElementById(sectionId);
+  const sheet = document.getElementById('printSheet');
+  if (!sec || !sheet) return '';
+
+  const h2 = sec.querySelector('h2');
+  const out = sec.querySelector('.out');
+  const note = sec.querySelector('.note');
+  const title = h2 ? h2.textContent.replace(/[^\x20-\x7E]/g, '').trim() : 'Report';
+  const today = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+  sheet.innerHTML =
+    '<div class="ps-head"><div class="ps-brand">CareerShield</div>'
+      + '<div class="ps-date">' + esc(today) + '</div></div>'
+    + '<h1 class="ps-title">' + esc(title) + '</h1>'
+    + '<div class="ps-body">' + (out ? out.innerHTML : '') + '</div>'
+    + (note ? '<div class="ps-note">' + esc(note.textContent.trim()) + '</div>' : '')
+    + '<div class="ps-foot">careershield.vercel.app'
+      + (licenceValid() ? '' : ' · Free version')
+      + '</div>';
+  return title;
 }
-window.addEventListener('afterprint', () => {
-  document.querySelectorAll('section').forEach(s => s.classList.remove('printme'));
-});
+
+function savePdf(){
+  const title = buildPrintSheet(lastSection);
+  if (!title) return;
+
+  const prevTitle = document.title;
+  const stamp = new Date().toLocaleDateString('en-GB').split('/').reverse().join('-');
+  document.title = 'CareerShield - ' + title + ' - ' + stamp;
+
+  window.print();
+
+  setTimeout(function(){
+    document.title = prevTitle;
+    const sheet = document.getElementById('printSheet');
+    if (sheet) sheet.innerHTML = '';
+  }, 1200);
+}
 
 
 /* ---------- LICENCE (localStorage, no login) ---------- */
@@ -1116,7 +1147,8 @@ function paintLicence(){
   const l = getLicence();
   if (licenceValid()){
     const d = new Date(l.expires).toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' });
-    txt.textContent = 'Pro active — ' + (l.calls === 'unlimited' ? 'unlimited AI' : l.calls + ' AI calls') + ' · valid till ' + d;
+    txt.textContent = 'Pro active — ' + (l.calls === 'unlimited' ? 'unlimited AI'
+      : (typeof l.left === 'number' ? l.left + ' AI calls left' : l.calls + ' AI calls')) + ' · valid till ' + d;
     bar.style.display = 'block';
   } else {
     bar.style.display = 'none';
@@ -1134,7 +1166,7 @@ function keyValid(k){
   return clean.slice(14) === expected;
 }
 
-function applyLicence(){
+async function applyLicence(){
   const raw = document.getElementById('licInput').value.trim();
   const out = document.getElementById('licOut');
   if (!raw){ out.innerHTML = '<p style="color:#ef4444">Paste your key first.</p>'; out.classList.add('show'); return; }
@@ -1143,12 +1175,21 @@ function applyLicence(){
     out.classList.add('show');
     return;
   }
-  // tier is encoded in the first body char: Q = quick, S = starter, P = pro
-  const clean = raw.toUpperCase().replace(/[^A-Z0-9]/g, '');
-  const tierChar = clean[2];
-  const calls = tierChar === 'P' ? 'unlimited' : tierChar === 'S' ? 120 : 30;
-  setLicence({ key: clean, tier: tierChar, calls, expires: Date.now() + 365*24*60*60*1000 });
-  out.innerHTML = '<p style="color:var(--green);font-weight:700">Pro activated. Thank you.</p>';
+
+  out.innerHTML = '<p style="color:var(--muted)">Checking this key…</p>';
+  out.classList.add('show');
+
+  const ok = await activateKey(raw);
+  if (!ok){
+    out.innerHTML = '<p style="color:#ef4444">That key is not recognised. If you just paid, email '
+      + 'creatormarket.support@gmail.com with your payment reference.</p>';
+    out.classList.add('show');
+    return;
+  }
+
+  const l = getLicence() || {};
+  out.innerHTML = '<p style="color:var(--green);font-weight:700">Pro activated. Thank you.</p>'
+    + (l.offline ? '<p class="note">We could not reach the server just now, so this is a temporary activation. It will be checked again on your next AI request.</p>' : '');
   out.classList.add('show');
 }
 
@@ -1173,20 +1214,62 @@ function quotaLeft(){
   if (licenceValid()){
     const l = getLicence();
     if (l.calls === 'unlimited') return Infinity;
+    // the server's count wins whenever we have one
+    if (typeof l.left === 'number') return Math.max(0, l.left);
     return l.used === undefined ? l.calls : Math.max(0, l.calls - (l.used || 0));
   }
   return Math.max(0, FREE_PER_DAY - getQuota().used);
 }
 
 
-function activateKey(raw){
+/* Server-side check. A key only counts if the server has a record of it, so a
+   key generated in the browser console gets nothing. */
+async function verifyLicence(clean){
+  try {
+    const res = await fetch(PAY_BASE + '/careershield-pay', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY },
+      body: JSON.stringify({ action: 'verify', key: clean })
+    });
+    const d = await res.json().catch(function(){ return {}; });
+    if (res.ok && d.ok) return { ok: true, data: d };
+    if (res.status === 400 || res.status === 404) {
+      return { ok: false, reason: 'unknown', message: d.message || 'That key is not recognised.' };
+    }
+    return { ok: false, reason: 'network', message: d.message || 'Could not check that key right now.' };
+  } catch(e){
+    return { ok: false, reason: 'network', message: 'Could not reach the server to check that key.' };
+  }
+}
+
+async function activateKey(raw){
   const clean = String(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
   if (!keyValid(clean)) return false;
-  const tierChar = clean[2];
-  const calls = tierChar === 'P' ? 'unlimited' : tierChar === 'S' ? 120 : 30;
-  setLicence({ key: clean, tier: tierChar, calls, expires: Date.now() + 365*24*60*60*1000 });
+
+  const v = await verifyLicence(clean);
+  if (!v.ok && v.reason === 'unknown') return false;
+
+  if (v.ok){
+    setLicence({
+      key: clean,
+      tier: v.data.tier || v.data.plan,
+      calls: v.data.calls === null || v.data.calls === undefined ? 'unlimited' : v.data.calls,
+      left: v.data.remaining === undefined ? null : v.data.remaining,
+      expires: v.data.expires ? new Date(v.data.expires).getTime() : Date.now() + 365*24*60*60*1000,
+      offline: false
+    });
+    return true;
+  }
+
+  // Server unreachable: let the customer in, the first AI call still checks the key.
+  setLicence({
+    key: clean, tier: clean[2],
+    calls: clean[2] === 'P' ? 'unlimited' : clean[2] === 'S' ? 120 : 30,
+    left: null, expires: Date.now() + 365*24*60*60*1000, offline: true
+  });
   return true;
 }
+
 function copyKey(el){
   const k = el.getAttribute('data-key') || '';
   if (navigator.clipboard && navigator.clipboard.writeText){
@@ -1371,7 +1454,8 @@ async function buy(plan){
         out.classList.add('show');
       }
       const d = await claimKey(r.razorpay_payment_id, plan);
-      if (d && d.key && activateKey(d.key)){
+      const activated = (d && d.key) ? await activateKey(d.key) : false;
+      if (d && d.key && activated){
         if (out){
           out.innerHTML = '<div class="risk risk-low"><div class="score">OK</div><div>'
             + '<div style="font-weight:800">You are all set — ' + esc(d.label) + '</div>'
@@ -1415,6 +1499,7 @@ if (document.readyState === 'loading'){
   loadReviews();
 }
 </script>
+<div id="printSheet"></div>
 <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
 </body>
 </html>

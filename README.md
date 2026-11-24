@@ -18,8 +18,17 @@ Free tools for Indian job seekers. No signup, no card, no data stored.
 13. **PDF export** — print the current report
 
 All AI modes are served by the shared Supabase edge function `ai-tools`
-(project `eqwmsjsqrhgyfpyssfop`), which calls Sarvam AI. Free tier is 3 AI
-calls per day per browser; paid packs add more via a licence key.
+(project `eqwmsjsqrhgyfpyssfop`), which calls Sarvam AI.
+
+Abuse controls on the server (not just the browser):
+- per-IP rate limit: 40 calls/hour, 200/day (`cs_ai_hit` + `ai_usage` table)
+- every text field capped at 8,000 chars, whole request at 40 KB
+- licence keys are hashed and counted in the `licences` table; `ai-tools`
+  refuses an unknown, expired or exhausted key with 402 (`cs_licence_use`)
+- `careershield-pay` stores the licence on claim and answers `action: "verify"`
+
+The free tier (3 AI calls/day) is enforced in the browser for politeness; the
+per-IP limit is the real ceiling on cost.
 
 ## Privacy
 The client-side checks (scam, ATS, match, PDF parsing) run entirely in the
