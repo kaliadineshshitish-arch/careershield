@@ -37,6 +37,13 @@ call costs real money at Sarvam. The free tools (scam check, ATS, job match,
 PDF reality check, application tracker, PDF export) need no key at all. The
 per-IP limit stays as the ceiling on abuse.
 
+## Files
+- `index.html` — markup and copy only
+- `app.js` — all behaviour; loaded with `defer`, no inline handlers anywhere
+  (every control carries `data-act`), so the CSP runs without `'unsafe-inline'`
+- `privacy.html` — the privacy page at `/privacy`
+- `vendor/` — self-hosted pdf.js
+
 ## Privacy
 The client-side checks (scam, ATS, match, PDF parsing) run entirely in the
 browser. AI tools send only the text the user pastes to the `ai-tools`
