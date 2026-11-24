@@ -58,6 +58,7 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding:18px 0 40px;colo
   <ul>
     <li><strong>AI tools:</strong> the text you type into an AI tool (resume text, job description, career-gap reason, answers) is sent to our server function and from there to <strong>Sarvam AI</strong>, an Indian AI provider, which generates the reply. We do not store that text in a database and we do not log it. Sarvam processes it to produce the answer under its own terms.</li>
     <li><strong>Your IP address</strong> is used for rate limiting (to stop abuse of the AI credits) and is kept in a counter table for up to two days.</li>
+    <li><strong>Page and tool counts:</strong> we keep a simple first-party counter so we know which tools people actually use — one row per page load with the page, the referring site, the device type and a one-way hash of your IP. No cookies, no third-party analytics script, no profile of you. Rows older than 90 days are deleted automatically.</li>
     <li><strong>Payments:</strong> Razorpay processes the payment. We receive a payment reference, the plan and the amount — never your card, UPI ID or bank details.</li>
     <li><strong>Licence records:</strong> we store a one-way hash of your licence key, the plan, how many AI calls were used and the expiry date. The key itself cannot be read back from the hash.</li>
     <li><strong>Reviews:</strong> if you post a review, your first name, star rating and comment are stored and published after we check them. Do not write anything personal in a review.</li>
@@ -90,6 +91,5 @@ footer{border-top:1px solid var(--line);margin-top:34px;padding:18px 0 40px;colo
 
   <footer>CareerShield — a DK Digital Studio product · <a href="/">careershield.vercel.app</a></footer>
 </main>
-<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

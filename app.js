@@ -711,10 +711,23 @@ async function coachAnswer(){
   document.getElementById('coachRun').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-/* ---------- ANALYTICS (Vercel Web Analytics; no-op until it is enabled) ---------- */
-window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+/* ---------- FIRST-PARTY COUNTER ----------
+   One row per page load in our own table (no cookies, IP stored as a hash).
+   Vercel's own insights route answers 500 on this project, so we count here. */
+function countHit(page, ref, device){
+  try {
+    // AI_BASE is declared further down, so it is read at call time, not now.
+    const hitUrl = AI_BASE.replace('/functions/v1', '') + '/rest/v1/rpc/cs_hit';
+    fetch(hitUrl, {
+      method: 'POST', keepalive: true, cache: 'no-store',
+      headers: { 'Content-Type': 'application/json', 'apikey': AI_KEY, 'Authorization': 'Bearer ' + AI_KEY },
+      body: JSON.stringify({ p_page: page, p_ref: ref, p_device: device })
+    }).catch(function(){});
+  } catch(e){}
+}
+
 function track(name, data){
-  try { window.va('event', Object.assign({ name: name }, data || {})); } catch(e){}
+  countHit('event:' + String(name) + (data && data.mode ? ':' + data.mode : ''), '', '');
 }
 
 /* ---------- SECURITY: single escape helper ---------- */
@@ -1366,6 +1379,12 @@ paintLicence();
 buildScamQs();
 
 renderVersions();
+
+(function countPageView(){
+  const ref = document.referrer ? (function(){ try { return new URL(document.referrer).hostname; } catch(e){ return ''; } })() : '';
+  const dev = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent) ? (/iPad|Tablet/i.test(navigator.userAgent) ? 'tablet' : 'mobile') : 'desktop';
+  countHit(location.pathname || '/', ref, dev);
+})();
 
 (function initTracker(){
   const d = document.getElementById('tkDate');

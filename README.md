@@ -45,14 +45,18 @@ per-IP limit stays as the ceiling on abuse.
 - `vendor/` — self-hosted pdf.js
 
 ## Analytics
-Vercel Web Analytics is enabled on the project. A plain HTML site is not
-instrumented automatically, so `index.html` and `privacy.html` load
-`/_vercel/insights/script.js` themselves, and `app.js` fires the events:
-`tool_scam`, `tool_ats`, `tool_match`, `tool_pdf_reality`, `tool_tracker_add`,
-`tool_coach_start`, `ai_call` (with the mode), `paywall_shown`,
-`paywall_pack_empty`, `licence_activated`, `buy_click`, `pdf_export`.
-The whole site is one page, so without these events the dashboard would only
-ever show `/`.
+Vercel's own Web Analytics was enabled on the project, but its
+`/_vercel/insights/script.js` route answers 404/500 on this deployment, so the
+site counts visits itself:
+
+- `public.site_hits` — one row per page load: page, referring host, device
+  type, sha256 of the IP, timestamp. No cookies, no third-party script.
+- `public.cs_hit(p_page, p_ref, p_device)` — security-definer RPC, executable
+  by `anon`, the only way in; the table itself has RLS and no policies.
+- `app.js` fires one hit on load and one per tool action (`event:tool_ats`,
+  `event:ai_call:repair`, `event:paywall_shown`, …), because the whole site is
+  a single page and page paths alone would never show which tool was used.
+- Rows older than 90 days are deleted by the function itself.
 
 ## Privacy
 The client-side checks (scam, ATS, match, PDF parsing) run entirely in the
