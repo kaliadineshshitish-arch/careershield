@@ -45,9 +45,10 @@ per-IP limit stays as the ceiling on abuse.
 - `vendor/` — self-hosted pdf.js
 
 ## Analytics
-Vercel's own Web Analytics was enabled on the project, but its
-`/_vercel/insights/script.js` route answers 404/500 on this deployment, so the
-site counts visits itself:
+Vercel Web Analytics is enabled on the project and its script tag is on both
+pages, so page views show up in the Vercel dashboard. Because the whole site is
+one page (hash links), the dashboard alone would only ever show `/`, so the
+site also counts itself:
 
 - `public.site_hits` — one row per page load: page, referring host, device
   type, sha256 of the IP, timestamp. No cookies, no third-party script.
