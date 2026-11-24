@@ -11,7 +11,11 @@ Free tools for Indian job seekers. No signup, no card, no data stored.
 6. **AI Achievement Writer** — duty → 3 achievement lines (mode: `achievement`)
 7. **AI Cover Letter** — per-job letter, English/Hindi/Hinglish (mode: `cover-letter`)
 8. **Hindi ⇄ English Converter** — 4 directions, tools stay in English (mode: `career-translate`)
-9. **PDF export** — print the current report
+9. **Career Gap Assistant** — resume line + interview answer for a gap (mode: `career-gap`)
+10. **Fresher Resume Expert** — one-page fresher skeleton with [ADD:] slots (mode: `fresher-resume`)
+11. **Multiple Job Resume Versions** — per-job tailoring + versions saved in localStorage (mode: `resume-tailor`)
+12. **Why No Interview Analysis** — diagnosis from resume + application numbers (mode: `no-interview`)
+13. **PDF export** — print the current report
 
 All AI modes are served by the shared Supabase edge function `ai-tools`
 (project `eqwmsjsqrhgyfpyssfop`), which calls Sarvam AI. Free tier is 3 AI
@@ -32,6 +36,9 @@ function. Nothing is written to a database.
 - [x] Hindi ⇄ English converter
 - [x] PDF export
 - [x] Razorpay checkout + licence keys
-- [ ] Career Gap Assistant, Fresher Resume Expert, multi-version resume
-- [ ] Why No Interview Analysis, Career Improvement Plan
+- [x] Career Gap Assistant
+- [x] Fresher Resume Expert
+- [x] Multiple Job Resume Versions (localStorage)
+- [x] Why No Interview Analysis
+- [ ] Career Improvement Plan
 - [ ] AI Interview Coach, LinkedIn Optimizer, Job Application Tracker

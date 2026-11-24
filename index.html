@@ -27,7 +27,9 @@ nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.88);backdrop-filt
 nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.05rem;letter-spacing:-.02em}
 .brand .dot{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--green),#0ea5e9);display:grid;place-items:center;font-size:15px}
-.navlinks{display:flex;gap:18px;font-size:.82rem;color:var(--muted);white-space:nowrap}
+.navlinks{display:flex;gap:18px;font-size:.82rem;color:var(--muted);white-space:nowrap;min-width:0;overflow-x:auto;scrollbar-width:none}
+.navlinks::-webkit-scrollbar{display:none}
+@media(max-width:1180px){.navlinks{gap:12px;font-size:.76rem}}
 .navlinks a{text-decoration:none;padding:4px 0}
 .navlinks a:hover{color:var(--ink)}
 @media(max-width:820px){.navlinks{display:none}}
@@ -161,6 +163,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <a href="#achievement">Achievement</a>
     <a href="#cover">Cover Letter</a>
     <a href="#translate">Hindi ⇄ English</a>
+    <a href="#gap">Career Gap</a>
+    <a href="#fresher">Fresher</a>
+    <a href="#versions">Versions</a>
+    <a href="#nointerview">No Interview</a>
     <a href="#pricing">Pricing</a>
   </div>
 </div></nav>
@@ -186,6 +192,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="card"><div class="ico">🔧</div><h3>Resume Repair</h3><p>Turn plain responsibilities into achievement lines that are true. No invented numbers, no fake experience.</p></div>
     <div class="card"><div class="ico">🏆</div><h3>AI Achievement Writer</h3><p>Type the duty in plain words. Get three achievement lines built only from what you actually did and the numbers you can defend.</p></div>
     <div class="card"><div class="ico">🔁</div><h3>Hindi ⇄ English Converter</h3><p>Convert a resume line, email or message between English, Hindi and Hinglish. Tools and job titles stay in English.</p></div>
+    <div class="card"><div class="ico">⏸️</div><h3>Career Gap Assistant</h3><p>A gap on the resume is not a disqualification. Get an honest resume line, an interview answer you can say out loud, and what to show instead of excuses.</p></div>
+    <div class="card"><div class="ico">🎓</div><h3>Fresher Resume Expert</h3><p>No experience yet? Build a one-page fresher resume from your degree, college projects and skills — with clear [ADD: …] slots instead of invented internships.</p></div>
+    <div class="card"><div class="ico">🗂️</div><h3>Multiple Job Resume Versions</h3><p>Tailor your resume for each job and keep the versions saved in your browser. Apply to five roles with five honest versions, not one generic one.</p></div>
+    <div class="card"><div class="ico">📉</div><h3>Why No Interview Analysis</h3><p>Sent 80 applications and no calls? Get the three most likely reasons, each pointing at a real line in your resume — and what to fix this week.</p></div>
   </div>
 </section>
 
@@ -311,6 +321,104 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 </div>
 
 
+<!-- ============ CAREER GAP ============ -->
+<section class="wrap" id="gap">
+  <div class="tool">
+    <h2>⏸️ Career Gap Assistant</h2>
+    <p class="lead">Tell us the gap and the real reason. You will get a resume line, an interview answer, and what to show instead of an excuse.</p>
+    <label>How long was the gap?</label>
+    <input type="text" id="gapLen" maxlength="60" placeholder="Example: 14 months, from Aug 2024 to Oct 2025">
+    <label>Why (be honest, this stays in your browser)</label>
+    <textarea id="gapReason" maxlength="800" placeholder="Example: Father was ill, I was managing his treatment and the shop. Started learning Excel again last month."></textarea>
+    <label>Last role (optional)</label>
+    <input type="text" id="gapLast" maxlength="120" placeholder="Example: Customer support executive">
+    <label>Role you are targeting (optional)</label>
+    <input type="text" id="gapTarget" maxlength="120" placeholder="Example: Operations executive">
+    <label>Anything you kept up during the gap (optional)</label>
+    <textarea id="gapSkills" maxlength="800" placeholder="Example: Practised Excel, did a free SQL course, helped in the family shop's accounts."></textarea>
+    <label>Language</label>
+    <select id="gapLang">
+      <option value="english">English</option>
+      <option value="hinglish">Hinglish</option>
+      <option value="hindi">Hindi</option>
+    </select>
+    <div style="margin-top:18px"><button class="btn btn-primary" onclick="runGap()">Help me explain this gap</button></div>
+    <div class="out" id="gapOut"></div>
+    <p class="note">We will never suggest hiding the gap, shifting dates or inventing a freelance client. Recruiters check.</p>
+  </div>
+</section>
+
+<!-- ============ FRESHER RESUME ============ -->
+<section class="wrap" id="fresher">
+  <div class="tool">
+    <h2>🎓 Fresher Resume Expert</h2>
+    <p class="lead">Freshers do not need fake experience. They need projects, skills and a structure recruiters can scan in 20 seconds.</p>
+    <label>Degree</label>
+    <input type="text" id="frDegree" maxlength="120" placeholder="Example: B.Com (Computer Applications)">
+    <label>College (optional)</label>
+    <input type="text" id="frCollege" maxlength="120" placeholder="Example: St. Xavier's College, Mumbai">
+    <label>Year of passing (optional)</label>
+    <input type="text" id="frYear" maxlength="20" placeholder="Example: 2025">
+    <label>Skills</label>
+    <textarea id="frSkills" maxlength="600" placeholder="Example: Advanced Excel, Tally, basic SQL, Canva"></textarea>
+    <label>College projects (one per line)</label>
+    <textarea id="frProjects" maxlength="2000" placeholder="Example: Accounts for college fest — tracked ₹1.2 lakh spend in Excel for a 3-day event."></textarea>
+    <label>Internships (optional)</label>
+    <textarea id="frInterns" maxlength="1200" placeholder="Example: 2-month internship at a CA firm, vouching and data entry."></textarea>
+    <label>Role you are applying for</label>
+    <input type="text" id="frRole" maxlength="120" placeholder="Example: Accounts Executive">
+    <label>Job description (optional)</label>
+    <textarea id="frJd" maxlength="8000" placeholder="Paste the job posting here…"></textarea>
+    <div style="margin-top:18px"><button class="btn btn-primary" onclick="runFresher()">Build my fresher resume</button></div>
+    <div class="out" id="frOut"></div>
+    <p class="note">Missing details come back as [ADD: …] slots. We do not invent internships, CGPA or certifications.</p>
+  </div>
+</section>
+
+<!-- ============ MULTIPLE VERSIONS ============ -->
+<section class="wrap" id="versions">
+  <div class="tool">
+    <h2>🗂️ Multiple Job Resume Versions</h2>
+    <p class="lead">One resume for every job is why the calls stop. Tailor it per job, then save the version here — it stays in this browser.</p>
+    <label>Your resume text</label>
+    <textarea id="vResume" maxlength="8000" placeholder="Paste your current resume…"></textarea>
+    <label>Job title you are applying for</label>
+    <input type="text" id="vRole" maxlength="120" placeholder="Example: Data Analyst at Zoho">
+    <label>Job description</label>
+    <textarea id="vJd" maxlength="8000" placeholder="Paste the job posting here…"></textarea>
+    <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="runTailor()">Tailor for this job</button>
+      <button class="btn btn-ghost btn-sm" onclick="saveVersion()">Save this version</button>
+    </div>
+    <div class="out" id="vOut"></div>
+    <div id="vList" style="margin-top:18px"></div>
+    <p class="note">Versions are saved only in this browser. Nothing is uploaded, and clearing site data deletes them.</p>
+  </div>
+</section>
+
+<!-- ============ WHY NO INTERVIEW ============ -->
+<section class="wrap" id="nointerview">
+  <div class="tool">
+    <h2>📉 Why No Interview Analysis</h2>
+    <p class="lead">Applications going out but the phone is not ringing? Here is the honest diagnosis, based on your resume and your numbers.</p>
+    <label>Your resume text</label>
+    <textarea id="niResume" maxlength="8000" placeholder="Paste your resume…"></textarea>
+    <label>Role you are applying for (optional)</label>
+    <input type="text" id="niRole" maxlength="120" placeholder="Example: Data Analyst">
+    <label>How many applications in that time?</label>
+    <input type="text" id="niApps" maxlength="40" placeholder="Example: 80">
+    <label>How many months have you been applying?</label>
+    <input type="text" id="niMonths" maxlength="40" placeholder="Example: 5">
+    <label>Where are you applying? (optional)</label>
+    <input type="text" id="niChannels" maxlength="200" placeholder="Example: Naukri, LinkedIn, referrals">
+    <label>One job description you applied to (optional)</label>
+    <textarea id="niJd" maxlength="8000" placeholder="Paste the posting here…"></textarea>
+    <div style="margin-top:18px"><button class="btn btn-primary" onclick="runNoInterview()">Why am I not getting calls?</button></div>
+    <div class="out" id="niOut"></div>
+    <p class="note">This reads your resume text only. No tool can see a company's actual screening system, so we say what we can and cannot tell.</p>
+  </div>
+</section>
+
 <!-- ============ COVER LETTER ============ -->
 <section class="wrap" id="cover">
   <div class="tool">
@@ -352,7 +460,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <div style="font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px">Free forever</div>
         <div style="font-size:1.9rem;font-weight:800;letter-spacing:-.03em">&#8377;0</div>
         <ul class="flags" style="margin-top:14px">
-          <li class="ok">All 8 tools, no signup</li>
+          <li class="ok">All 12 tools, no signup</li>
           <li class="ok">3 AI calls per day</li>
           <li class="ok">PDF export</li>
           <li class="ok">Nothing stored on our side</li>
@@ -650,6 +758,158 @@ async function runTranslate(){
   showPdfBar('translate');
 }
 
+/* ---------- CAREER GAP ASSISTANT ---------- */
+async function runGap(){
+  const gap = document.getElementById('gapLen').value.trim();
+  const reason = document.getElementById('gapReason').value.trim();
+  const lastRole = document.getElementById('gapLast').value.trim();
+  const targetRole = document.getElementById('gapTarget').value.trim();
+  const skills = document.getElementById('gapSkills').value.trim();
+  const lang = document.getElementById('gapLang').value;
+  const out = document.getElementById('gapOut');
+  if (!gap || !reason){ out.innerHTML = '<p style="color:#ef4444">The gap length and the real reason are both needed.</p>'; out.classList.add('show'); return; }
+
+  const txt = await aiText({
+    mode: 'career-gap', site: 'careershield', lang: lang,
+    gap: gap, reason: reason, lastRole: lastRole, targetRole: targetRole, skills: skills
+  }, 'gapOut', 'Working out how to say this…');
+
+  if (txt === null) return;
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + esc(txt) + '</div>';
+  out.classList.add('show');
+  showPdfBar('gap');
+}
+
+/* ---------- FRESHER RESUME EXPERT ---------- */
+async function runFresher(){
+  const degree = document.getElementById('frDegree').value.trim();
+  const role = document.getElementById('frRole').value.trim();
+  const out = document.getElementById('frOut');
+  if (!degree || !role){ out.innerHTML = '<p style="color:#ef4444">Degree and the role you are applying for are both needed.</p>'; out.classList.add('show'); return; }
+
+  const txt = await aiText({
+    mode: 'fresher-resume', site: 'careershield',
+    degree: degree,
+    college: document.getElementById('frCollege').value.trim(),
+    year: document.getElementById('frYear').value.trim(),
+    skills: document.getElementById('frSkills').value.trim(),
+    projects: document.getElementById('frProjects').value.trim(),
+    internships: document.getElementById('frInterns').value.trim(),
+    targetRole: role,
+    jd: document.getElementById('frJd').value.trim()
+  }, 'frOut', 'Building your fresher resume…');
+
+  if (txt === null) return;
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + esc(txt) + '</div>';
+  out.classList.add('show');
+  showPdfBar('fresher');
+}
+
+/* ---------- MULTIPLE VERSIONS (AI tailor + local storage) ---------- */
+const VER_KEY = 'cs_versions_v1';
+const VER_MAX = 10;
+
+function getVersions(){
+  try {
+    const v = JSON.parse(localStorage.getItem(VER_KEY) || '[]');
+    return Array.isArray(v) ? v : [];
+  } catch(e){ return []; }
+}
+function setVersions(list){
+  try { localStorage.setItem(VER_KEY, JSON.stringify(list.slice(0, VER_MAX))); } catch(e){}
+  renderVersions();
+}
+function renderVersions(){
+  const box = document.getElementById('vList');
+  if (!box) return;
+  const list = getVersions();
+  if (!list.length){
+    box.innerHTML = '<p style="color:var(--faint);font-size:.8rem">No saved versions yet. Tailor a resume, then press “Save this version”.</p>';
+    return;
+  }
+  box.innerHTML = '<div style="font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px">Saved versions (' + list.length + '/' + VER_MAX + ')</div>'
+    + list.map(function(v){
+        return '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:10px 12px;margin-bottom:8px">'
+          + '<div style="flex:1;min-width:150px"><div style="font-size:.86rem;font-weight:600">' + esc(v.label) + '</div>'
+          + '<div style="font-size:.74rem;color:var(--faint)">' + esc(v.at) + ' · ' + v.text.length + ' chars</div></div>'
+          + '<button class="btn btn-ghost btn-sm" onclick="loadVersion(\'' + esc(v.id) + '\')">Open</button>'
+          + '<button class="btn btn-ghost btn-sm" onclick="delVersion(\'' + esc(v.id) + '\')">Delete</button>'
+          + '</div>';
+      }).join('');
+}
+function saveVersion(){
+  const out = document.getElementById('vOut');
+  const text = out ? out.innerText.trim() : '';
+  if (!text || text.length < 20){
+    out.innerHTML = '<p style="color:#f59e0b">Tailor a resume first, then save it.</p>';
+    out.classList.add('show');
+    return;
+  }
+  const role = document.getElementById('vRole').value.trim();
+  const list = getVersions();
+  list.unshift({
+    id: String(Date.now()),
+    label: role || 'Version ' + (list.length + 1),
+    at: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }),
+    text: text.slice(0, 20000)
+  });
+  setVersions(list);
+  out.innerHTML = '<p style="color:#86efac">Saved in this browser.</p>';
+  out.classList.add('show');
+}
+function loadVersion(id){
+  const v = getVersions().filter(function(x){ return x.id === id; })[0];
+  if (!v) return;
+  const out = document.getElementById('vOut');
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + esc(v.text) + '</div>';
+  out.classList.add('show');
+  document.getElementById('versions').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function delVersion(id){
+  setVersions(getVersions().filter(function(x){ return x.id !== id; }));
+}
+
+async function runTailor(){
+  const resume = document.getElementById('vResume').value.trim();
+  const jd = document.getElementById('vJd').value.trim();
+  const role = document.getElementById('vRole').value.trim();
+  const out = document.getElementById('vOut');
+  if (!resume){ out.innerHTML = '<p style="color:#ef4444">Paste your resume text first.</p>'; out.classList.add('show'); return; }
+  if (!jd){ out.innerHTML = '<p style="color:#ef4444">Paste the job description you are targeting.</p>'; out.classList.add('show'); return; }
+
+  const txt = await aiText({
+    mode: 'resume-tailor', site: 'careershield',
+    resume: resume, jd: jd, role: role
+  }, 'vOut', 'Tailoring your resume for this job…');
+
+  if (txt === null) return;
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + esc(txt) + '</div>';
+  out.classList.add('show');
+  showPdfBar('versions');
+}
+
+/* ---------- WHY NO INTERVIEW ---------- */
+async function runNoInterview(){
+  const resume = document.getElementById('niResume').value.trim();
+  const out = document.getElementById('niOut');
+  if (!resume){ out.innerHTML = '<p style="color:#ef4444">Paste your resume text so the diagnosis has something to work on.</p>'; out.classList.add('show'); return; }
+
+  const txt = await aiText({
+    mode: 'no-interview', site: 'careershield',
+    resume: resume,
+    role: document.getElementById('niRole').value.trim(),
+    applications: document.getElementById('niApps').value.trim(),
+    months: document.getElementById('niMonths').value.trim(),
+    channels: document.getElementById('niChannels').value.trim(),
+    jd: document.getElementById('niJd').value.trim()
+  }, 'niOut', 'Reading your resume against your numbers…');
+
+  if (txt === null) return;
+  out.innerHTML = '<div style="white-space:pre-wrap;line-height:1.65">' + esc(txt) + '</div>';
+  out.classList.add('show');
+  showPdfBar('nointerview');
+}
+
 /* ---------- SECURITY: single escape helper ---------- */
 function esc(s){
   return String(s == null ? '' : s)
@@ -817,6 +1077,7 @@ function showPdfBar(sectionId){
   lastSection = sectionId;
   const bar = document.getElementById('pdfbar');
   bar.style.display = 'flex';
+  document.body.style.paddingBottom = '84px';
 }
 function savePdf(){
   document.querySelectorAll('section').forEach(s => s.classList.remove('printme'));
@@ -1145,6 +1406,8 @@ async function buy(plan){
 paintLicence();
 
 buildScamQs();
+
+renderVersions();
 
 if (document.readyState === 'loading'){
   document.addEventListener('DOMContentLoaded', loadReviews);
